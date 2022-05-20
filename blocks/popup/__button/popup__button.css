@@ -15,3 +15,13 @@
     opacity: .6;
     cursor: pointer;
 }
+
+
+@media screen and (max-width: 450px) {
+    .popup__button {
+        height: 46px;
+        margin: 45px 0 25px;
+        font-size: 14px;
+        line-height: 1.21;
+    }
+}
