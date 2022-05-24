@@ -5,8 +5,9 @@
     background-position: center;
     justify-self: end;
     background-repeat: no-repeat;
-    background-color: black;
     border: 2px solid #fff;
+    background-color: transparent;
+    border-radius: 2px;
 }
 
 .profile__add-button:hover {

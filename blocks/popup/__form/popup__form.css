@@ -5,3 +5,8 @@
     max-width: 358px;
     width: 100%;
 }
+@media screen and (max-width: 450px) {
+    .popup__form {
+        max-width: calc(100% - 2*22px);
+    }
+}
