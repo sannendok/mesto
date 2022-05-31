@@ -13,5 +13,6 @@
     .logo {
         max-width: 104px;
         max-height: 24px;
+        margin-bottom: 32px;
     }
 }
