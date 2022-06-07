@@ -8,5 +8,62 @@
     bottom: 0;
     right: 0;
     background: rgba(0, 0, 0, .5);
-    transition: opacity 3.3s ease, visibility 3.1s ease;
+}
+
+.card-popup {
+    background-color: rgba(0, 0, 0, .5);
+}
+
+let popup = document.querySelector('.popup');
+    popupCard = document.querySelector('.card-popup');
+    popupOpenButton = document.querySelector('.profile__edit-button');
+    popupOpenAdd = document.querySelector('.profile__add-button')
+    popupCloseButton = document.querySelector('.popup__close')
+    popInputName = document.querySelector('.popup__input_value_name');
+    popInputDescription = document.querySelector('.popup__input_value_description');
+    profileName = document.querySelector('.profile__name');
+    profileDescription = document.querySelector('.profile__description');
+    formElement = document.querySelector('.popup__form');
+
+function openPopup() {
+    popup.classList.add('popup_open');
+    popInputName.value = profileName.textContent;
+    popInputDescription.value = profileDescription.textContent;
+}
+function openPopupAddimg() {
+    popupCard.classList.add('popup_open');
+}
+
+function close() {
+    popup.classList.remove('popup_open');
+    popupCard.classList.remove('popup_open');
+}
+function closeImg() {
+    popupCard.classList.remove('popup_open');
+}
+function formSubmitHandler (evt) {
+    evt.preventDefault(); 
+    profileName.textContent = popInputName.value;
+    profileDescription.textContent = popInputDescription.value;
+    popup.classList.remove('popup_open');
+}
+function close() {
+    const popupCloseButton = document.querySelector('.popup__close');
+  
+    popupCloseButton.querySelector('.popup__close').addEventListener('click', function (evt) {
+        popupCloseButton.classList.remove('popup_open');
+  });
+}
+popupOpenButton.addEventListener('click', openPopup);
+popupOpenAdd.addEventListener('click', openPopupAddimg);
+popupCloseButton.addEventListener('click', close);
+popupCloseButton.addEventListener('click', closeImg);
+formElement.addEventListener('submit', formSubmitHandler); 
+
+function close() {
+    const popupCloseButton = document.querySelector('.popup__close');
+  
+    popupCloseButton.querySelector('.popup__close').addEventListener('click', function (evt) {
+        popupCloseButton.classList.remove('popup_open');
+  });
 }
