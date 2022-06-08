@@ -38,9 +38,7 @@ profileDescription = document.querySelector('.profile__description');
 formElement = document.querySelector('.popup__form');
 cardConteiner = document.querySelector('.elements__list');
 
-addCardButton = document.querySelector('#add-card');
-cardInfo = document.querySelector('.elements__card-heading');
-cardInputInfo = document.querySelector('.popup__input_value_place')
+
 
 
 
@@ -83,7 +81,6 @@ const openPopup = (elem) => {
 const close = (elem) => {
     elem.classList.remove('popup_open');
 }
-//лайк карточки
 
 // События
 popupOpenButton.addEventListener('click', () => {

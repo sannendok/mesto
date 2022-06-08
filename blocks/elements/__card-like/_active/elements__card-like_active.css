@@ -9,5 +9,8 @@
     padding: 0;
     background-color: transparent;
     margin: 5px 5px 0 0;
-
+    flex-shrink: 0;
+}
+.elements__card-like_active:hover {
+    opacity: 1;
 }
