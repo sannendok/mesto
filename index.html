@@ -28,48 +28,7 @@
         </section>
         <section class="elements">
             <ul class="elements__list">
-                <li class="elements__item">
-                    <img src="./images/karach.jpg" alt="Карачаево-Черкесск" class="elements__item-image">
-                    <div class="elements__card-info">
-                        <h2 class="elements__card-heading">Карачаевск</h2>
-                        <button type="button" class="elements__card-like elements__card-like_active"></button>
-                    </div>
-                </li>
-                <li class="elements__item">
-                    <img src="./images/karach.jpg" alt="Карачаево-Черкесск" class="elements__item-image">
-                    <div class="elements__card-info">
-                        <h2 class="elements__card-heading">Карачаевск</h2>
-                        <button type="button" class="elements__card-like elements__card-like_active"></button>
-                    </div>
-                </li>
-                <li class="elements__item">
-                    <img src="./images/elbrus.jpg" alt="Эльбрус" class="elements__item-image">
-                    <div class="elements__card-info">
-                        <h2 class="elements__card-heading">Гора Эльбрус</h2>
-                        <button type="button" class="elements__card-like elements__card-like_active"></button>
-                    </div>
-                </li>
-                <li class="elements__item">
-                    <img src="./images/elbrus.jpg" alt="Эльбрус" class="elements__item-image">
-                    <div class="elements__card-info">
-                        <h2 class="elements__card-heading">Гора Эльбрус</h2>
-                        <button type="button" class="elements__card-like elements__card-like_active"></button>
-                    </div>
-                </li>
-                <li class="elements__item">
-                    <img src="./images/karach.jpg" alt="Карачаево-Черкесск" class="elements__item-image">
-                    <div class="elements__card-info">
-                        <h2 class="elements__card-heading">Карачаево-Черкесск</h2>
-                        <button type="button" class="elements__card-like elements__card-like_active"></button>
-                    </div>
-                </li>
-                <li class="elements__item">
-                    <img src="./images/karach.jpg" alt="Карачаево-Черкесск" class="elements__item-image">
-                    <div class="elements__card-info">
-                        <h2 class="elements__card-heading">Карачаево-Черкесск</h2>
-                        <button type="button" class="elements__card-like elements__card-like_active"></button>
-                    </div>
-                </li>
+
             </ul>
         </section>
     </main>
@@ -79,7 +38,16 @@
             &copy; 2022 Mesto Russia
         </p>
     </footer>
-
+    <template id="card">
+        <li class="elements__item">
+            <button type="button" class="elements__card-delete"></button>
+            <img class="elements__item-image">
+            <div class="elements__card-info">
+                <h2 class="elements__card-heading"></h2>
+                <button type="button" class="elements__card-like"></button>
+            </div>
+        </li>
+    </template>
     <div class="popup">
         <div class="popup__conteiner">
             <button class="popup__close" type="button"></button>
@@ -96,8 +64,8 @@
             <p class="popup__title">Новое место</p>
             <button type="button" class="popup__close"></button>
             <form action="#" name="Данные профиля" class="popup__form">
-                <input type="text" class="popup__input popup__input_place" name="Название" placeholder="Название">
-                <input type="text" class="popup__input popup__input_link" name="Ссылка на картинку"
+                <input type="text" class="popup__input popup__input_value_place" name="Название" placeholder="Название" type="text">
+                <input type="text" class="popup__input popup__input_value_link" name="Ссылка на картинку"
                     placeholder="Ссылка на картинку">
                 <button class="popup__button" type="submit">Создать</button>
             </form>
