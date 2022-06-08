@@ -37,6 +37,9 @@ profileName = document.querySelector('.profile__name');
 profileDescription = document.querySelector('.profile__description');
 formElement = document.querySelector('.popup__form');
 cardConteiner = document.querySelector('.elements__list');
+addCardButtot = document.querySelector('.add-card-button');
+popInputPlace = document.querySelector('.popup__input_value_name');
+popInputLink = document.querySelector('.popup__input_value_name');
 
 
 
@@ -64,7 +67,12 @@ const addCard = item => {
   
     cardConteiner.append(cardElement);
   };
-  
+  // Добавить индивидуальную карточку
+function addCardEvn(evt) {
+    evt.preventDefault();
+    const cardElementadd = createCard({name: popInputPlace.value, link: popInputLink.value });
+    cardConteiner.prepend(cardElementadd);
+}
   //цикл массива с загрузкой картинок при открывании страницы
   initialCards.forEach(addCard);
 
@@ -101,4 +109,5 @@ popup.addEventListener('click', e => {
 
 //addCardButton.addEventListener('click', addCard);
 formElement.addEventListener('submit', formSubmitHandler); 
+addCardButtot.addEventListener ('submit', addCardEvn);
 
