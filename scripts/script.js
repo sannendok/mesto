@@ -39,7 +39,9 @@ cardConteiner = document.querySelector('.elements__list');
 addCardButtot = document.querySelector('.add-card-button');
 popInputPlace = document.querySelector('.popup__input_value_place');
 popInputLink = document.querySelector('.popup__input_value_link');
-//cardForm = document.querySelector('.card-popup');
+popupImg = document.querySelector('.popup_type_card');
+const cardPhoto = document.querySelector('.popup__card-photo');
+
 
 
 const openPopup = (elem) => {
@@ -58,7 +60,9 @@ function createCard(item) {
   const cardElement = cardTemplate.querySelector('.elements__item').cloneNode(true);
   const popupImgBtn = cardElement.querySelector('.elements__item-image');
   const cardElementInfo = cardElement.querySelector('.elements__card-heading');
-  const CardDel = cardElement.querySelector('.elements__card-delete')
+  const CardDel = cardElement.querySelector('.elements__card-delete');
+  const cardPhoto = document.querySelector('.popup__card-photo');
+  const cardPhotoPlace =document.querySelector('.popup__card-place');
 
   popupImgBtn.src = item.link;
   cardElementInfo.textContent = item.name;
@@ -69,6 +73,12 @@ function createCard(item) {
   });
   CardDel.addEventListener('click', function () {
     cardElement.remove();
+  });
+  popupImgBtn.addEventListener('click', function () {
+    cardPhoto.src = popupImgBtn.src;
+    cardPhoto.alt = popupImgBtn.alt;
+    cardPhotoPlace.textContent = cardElementInfo.textContent;
+    openPopup(popupImg);
   });
   return cardElement;
 };
@@ -81,6 +91,10 @@ function addCardEvn(elem) {
   elem.preventDefault();
   const usersCard = createCard({ name: popInputPlace.value, link: popInputLink.value });
   cardConteiner.prepend(usersCard);
+  elem.target.reset();
+  //close(cardForm);
+}
+function imgReset(elem) {
   elem.target.reset();
   //close(cardForm);
 }
@@ -105,6 +119,7 @@ popups.forEach((popup) => {
   popup.addEventListener('click', e => {
     if (e.target.classList.contains("popup__close") || e.target.classList.contains("popup__button")) {
       close(popup);
+      cardPhoto.src = "";
     }
   });
 });
