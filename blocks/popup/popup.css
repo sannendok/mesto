@@ -8,11 +8,9 @@
     bottom: 0;
     right: 0;
     background: rgba(0, 0, 0, .5);
-    opacity: 0;
-    transition-property: opacity, height;
-    transition-duration: 1s, 0s;
-    transition-delay: 0s, 1s;
-    height: 0;
+	transition: all 1.5s ease;
+	opacity: 0;
+	visibility: hidden;
 }
 
 .card-popup {
