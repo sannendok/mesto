@@ -20,9 +20,11 @@ const cardPhoto = document.querySelector('.popup__card-photo');
 
 const openPopup = (elem) => {
   elem.classList.add('popup_open');
+  document.addEventListener('keydown', keyEscHandler);
 };
 const close = (elem) => {
   elem.classList.remove('popup_open');
+  document.removeEventListener('keydown', keyEscHandler);
 };
 const getInfoProf = () => {
   popInputName.value = profileName.textContent;
@@ -92,6 +94,26 @@ popups.forEach((popup) => {
     }
   });
 });
+// функция, закрывающая попап клавишей escape
+
+const keyEscHandler = e => {
+  popups.forEach((popup) => {
+  if (e.key === 'Escape') {
+    close(popup);
+  }
+});
+};
+
+// обработчик, закрывающий попап кликом на оверлей
+
+popups.forEach((popup) => {
+  popup.addEventListener('click', e => {
+    if (e.target === e.currentTarget) {
+      close(popup);
+    }
+  });
+});
+
 formElement.addEventListener('submit', formSubmitHandler);
 buttonAddCard.addEventListener('submit', addCardEvn);
 
