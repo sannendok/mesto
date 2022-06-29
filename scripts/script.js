@@ -1,20 +1,22 @@
 const popup = document.querySelector('.popup');
 const popups = document.querySelectorAll('.popup');
 const popupCard = document.querySelector('.card-popup');
-const popupOpenButton = document.querySelector('.profile__edit-button');
+const popupProfile = document.querySelector('.profile-popup');
+const popupOpenButtonProfile = document.querySelector('.profile__edit-button');
 const popupOpenAdd = document.querySelector('.profile__add-button')
-const popupCloseButton = document.querySelector('.popup__close')
 const popInputName = document.querySelector('.popup__input_value_name');
 const popInputDescription = document.querySelector('.popup__input_value_description');
 const profileName = document.querySelector('.profile__name');
 const profileDescription = document.querySelector('.profile__description');
-const formElement = document.querySelector('.popup__form');
+const formElementProfile = document.querySelector('.popup__card-add-profile');
 const cardConteiner = document.querySelector('.elements__list');
-const buttonAddCard = document.querySelector('.add-card-button');
+const formAddCard = document.querySelector('.popup__card-add-form');
 const popInputPlace = document.querySelector('.popup__input_value_place');
 const popInputLink = document.querySelector('.popup__input_value_link');
 const popupImg = document.querySelector('.popup_type_card');
 const cardPhoto = document.querySelector('.popup__card-photo');
+const cardTemplate = document.querySelector('#card').content;
+const cardPhotoPlace =document.querySelector('.popup__card-place');
 
 
 
@@ -32,13 +34,10 @@ const getInfoProf = () => {
 };
 //Добавляем картинки при загрузке
 function createCard(item) {
-  const cardTemplate = document.querySelector('#card').content;
   const cardElement = cardTemplate.querySelector('.elements__item').cloneNode(true);
   const popupImgBtn = cardElement.querySelector('.elements__item-image');
   const cardElementInfo = cardElement.querySelector('.elements__card-heading');
   const cardDel = cardElement.querySelector('.elements__card-delete');
-  const cardPhoto = document.querySelector('.popup__card-photo');
-  const cardPhotoPlace =document.querySelector('.popup__card-place');
 
   popupImgBtn.src = item.link;
   cardElementInfo.textContent = item.name;
@@ -69,24 +68,32 @@ function addCardEvn(evt) {
   cardConteiner.prepend(usersCard);
   evt.target.reset();
   close(popupCard);
+  //Делает кнопку не активной
+  const submitButton = document.querySelector('.popup__card-add-btn');
+  deactiveButton (submitButton, validationSettings);
 }
 //цикл массива с загрузкой картинок при открывании страницы
 initialCards.forEach(addCard);
 //
-function formSubmitHandler(evt) {
+function handleProfileFormSubmit(evt) {
   evt.preventDefault();
   profileName.textContent = popInputName.value;
   profileDescription.textContent = popInputDescription.value;
   close(popup);
 };
 // События
-popupOpenButton.addEventListener('click', () => {
+
+//Открытие редактирование профиля
+popupOpenButtonProfile.addEventListener('click', () => {
   getInfoProf();
-  openPopup(popup);
+  openPopup(popupProfile);
 });
+
+//Окрытие добавление карточки
 popupOpenAdd.addEventListener('click', () => {
   openPopup(popupCard);
 });
+// Поиск закрывающих элементов
 popups.forEach((popup) => {
   popup.addEventListener('click', e => {
     if (e.target.classList.contains("popup__close")) {
@@ -97,15 +104,13 @@ popups.forEach((popup) => {
 // функция, закрывающая попап клавишей escape
 
 const keyEscHandler = e => {
-  popups.forEach((popup) => {
   if (e.key === 'Escape') {
-    close(popup);
+    const e = document.querySelector('.popup_open');
+    close(e);
   }
-});
 };
 
 // обработчик, закрывающий попап кликом на оверлей
-
 popups.forEach((popup) => {
   popup.addEventListener('click', e => {
     if (e.target === e.currentTarget) {
@@ -113,9 +118,10 @@ popups.forEach((popup) => {
     }
   });
 });
-
-formElement.addEventListener('submit', formSubmitHandler);
-buttonAddCard.addEventListener('submit', addCardEvn);
+// Отправление заполнееной формы профиля
+formElementProfile.addEventListener('submit', handleProfileFormSubmit);
+//Отправление добавленной картинки
+formAddCard.addEventListener('submit', addCardEvn);
 
 
 

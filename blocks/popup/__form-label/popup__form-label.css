@@ -4,3 +4,7 @@
     flex-direction: column;
     justify-content: space-between;
   }
+
+  .popup__form-label:last-of-type {
+    margin-top: 30px;
+}
