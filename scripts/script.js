@@ -1,4 +1,3 @@
-const popup = document.querySelector('.popup');
 const popups = document.querySelectorAll('.popup');
 const popupCard = document.querySelector('.card-popup');
 const popupProfile = document.querySelector('.profile-popup');
@@ -17,6 +16,7 @@ const popupImg = document.querySelector('.popup_type_card');
 const cardPhoto = document.querySelector('.popup__card-photo');
 const cardTemplate = document.querySelector('#card').content;
 const cardPhotoPlace =document.querySelector('.popup__card-place');
+const submitButtonDisabled = document.querySelector('.popup__card-add-btn');
 
 
 
@@ -69,8 +69,7 @@ function addCardEvn(evt) {
   evt.target.reset();
   close(popupCard);
   //Делает кнопку не активной
-  const submitButton = document.querySelector('.popup__card-add-btn');
-  deactiveButton (submitButton, validationSettings);
+  deactiveButton (submitButtonDisabled, validationSettings);
 }
 //цикл массива с загрузкой картинок при открывании страницы
 initialCards.forEach(addCard);
@@ -79,7 +78,7 @@ function handleProfileFormSubmit(evt) {
   evt.preventDefault();
   profileName.textContent = popInputName.value;
   profileDescription.textContent = popInputDescription.value;
-  close(popup);
+  close(popupProfile);
 };
 // События
 
@@ -105,8 +104,8 @@ popups.forEach((popup) => {
 
 const keyEscHandler = e => {
   if (e.key === 'Escape') {
-    const e = document.querySelector('.popup_open');
-    close(e);
+    const element = document.querySelector('.popup_open');
+    close(element);
   }
 };
 
