@@ -81,12 +81,7 @@ const validationSettings = ({
     });
   };
   
-  // отмена стандартного поведения кнопки
-  
-  formElement.addEventListener('submit', function(e) {
-    e.preventDefault();
-  });
-  
+
   //функция, делающая кнопку неактивной после закрытия попапа
   
   const deactiveButton = (buttonElement, validationSettings) => {
