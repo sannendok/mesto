@@ -32,7 +32,7 @@ const getInfoProf = () => {
   popInputName.value = profileName.textContent;
   popInputDescription.value = profileDescription.textContent;
 };
-//Добавляем картинки при загрузке
+//Добавляем картинки при загрузке(Обрабочик который создает разметку и приобразовывает данные)
 function createCard(item) {
   const cardElement = cardTemplate.querySelector('.elements__item').cloneNode(true);
   const popupImgBtn = cardElement.querySelector('.elements__item-image');
