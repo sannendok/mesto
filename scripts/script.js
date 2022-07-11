@@ -14,7 +14,7 @@ const popInputPlace = document.querySelector('.popup__input_value_place');
 const popInputLink = document.querySelector('.popup__input_value_link');
 const popupImg = document.querySelector('.popup_type_card');
 const cardPhoto = document.querySelector('.popup__card-photo');
-const cardTemplate = document.querySelector('#card').content;
+//const cardTemplate = document.querySelector('#card').content;
 const cardPhotoPlace =document.querySelector('.popup__card-place');
 const submitButtonDisabled = document.querySelector('.popup__card-add-btn');
 
@@ -59,11 +59,11 @@ const getInfoProf = () => {
 // };
 
 class Card {
-  constructor(data, cardSelector, zoomPic) {
+  constructor(data, cardSelector) {
       this._cardName = data.name;
       this._cardPic = data.link;
       this._cardSelector = cardSelector;
-      this._zoomPic = zoomPic;
+     // this._zoomPic = zoomPic;
   };
 
   _getTemplate() {
@@ -76,36 +76,36 @@ class Card {
       return cardEl;
   };
 
-  _addEventListeners() {
-      this._element.querySelector('.elements__card-delete')
-      .addEventListener('click', () => this._deleteCard());
+  // _addEventListeners() {
+  //     this._element.querySelector('.elements__card-delete')
+  //     .addEventListener('click', () => this._deleteCard());
 
-      this._cardLikeButton = this._element.querySelector('.elements__card-like');
+  //     this._cardLikeButton = this._element.querySelector('.elements__card-like');
 
-      this._cardLikeButton.addEventListener('click', () => this._likeCard());
+  //     this._cardLikeButton.addEventListener('click', () => this._likeCard());
 
-      this._itemImage.addEventListener('click', () => {
-          this._zoomPic(this._cardPic, this._cardName);
-      });
-  };
+  //     this._itemImage.addEventListener('click', () => {
+  //         this._zoomPic(this._cardPic, this._cardName);
+  //     });
+  // };
 
-  _deleteCard() {
-      this._element.remove();
-      this._element = null;
-  };
+  // _deleteCard() {
+  //     this._element.remove();
+  //     this._element = null;
+  // };
 
-  _likeCard() {
-      this._cardLikeButton.classList.toggle('elements__card-like_active');
-  };
+  // _likeCard() {
+  //     this._cardLikeButton.classList.toggle('elements__card-like_active');
+  // };
 
   render() {
       this._element = this._getTemplate();
-      this._itemImage = this._element.querySelector('.elements__item-image');
-      this._itemImage.src = this._cardPic;
+     // this._itemImage = this._element.querySelector('.elements__item-image');
+      this._element.querySelector('.elements__item-image').src = this._cardPic;
       this._element.querySelector('.elements__card-heading').textContent = this._cardName;
-      this._itemImage.alt = this._cardName;
+      //this._itemImage.alt = this._cardName;
       
-      this._addEventListeners();
+     // this._addEventListeners();
 
       return this._element;
   };
@@ -113,8 +113,9 @@ class Card {
 };
 //добавление карточек
 const addCard = item => {
-  const cardElement = new Card(item, '.template-item', zoomPic);
-  cardConteiner.append(cardElement);
+  const cardElement = new Card(item, '.template-item');
+  const cardElem = cardElement.render();
+  cardConteiner.append(cardElem);
 };
 function addCardEvn(evt) {
   evt.preventDefault();
