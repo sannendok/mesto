@@ -1,3 +1,6 @@
+import Card from './Card.js'
+import FormValidator from './formvalidator.js'
+
 const popups = document.querySelectorAll('.popup');
 const popupCard = document.querySelector('.card-popup');
 const popupProfile = document.querySelector('.profile-popup');
@@ -12,12 +15,16 @@ const cardConteiner = document.querySelector('.elements__list');
 const formAddCard = document.querySelector('.popup__card-add-form');
 const popInputPlace = document.querySelector('.popup__input_value_place');
 const popInputLink = document.querySelector('.popup__input_value_link');
-const popupImg = document.querySelector('.popup_type_card');
-const cardPhoto = document.querySelector('.popup__card-photo');
-const cardTemplate = document.querySelector('#card').content;
-const cardPhotoPlace =document.querySelector('.popup__card-place');
 const submitButtonDisabled = document.querySelector('.popup__card-add-btn');
 
+const validationSettings = ({
+  formSelector: '.popup__form',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__button',
+  inactiveButtonClass: 'popup__button_disabled',
+  inputErrorClass: 'popup__input_type_error',
+  errorClass: 'popup__error_visible'
+});
 
 
 const openPopup = (elem) => {
@@ -32,44 +39,23 @@ const getInfoProf = () => {
   popInputName.value = profileName.textContent;
   popInputDescription.value = profileDescription.textContent;
 };
-//Добавляем картинки при загрузке
-function createCard(item) {
-  const cardElement = cardTemplate.querySelector('.elements__item').cloneNode(true);
-  const popupImgBtn = cardElement.querySelector('.elements__item-image');
-  const cardElementInfo = cardElement.querySelector('.elements__card-heading');
-  const cardDel = cardElement.querySelector('.elements__card-delete');
 
-  popupImgBtn.src = item.link;
-  cardElementInfo.textContent = item.name;
-  popupImgBtn.alt = item.name;
-
-  cardElement.querySelector('.elements__card-like').addEventListener('click', function (evt) {
-    evt.target.classList.toggle('elements__card-like_active');
-  });
-  cardDel.addEventListener('click', function () {
-    cardElement.remove();
-  });
-  popupImgBtn.addEventListener('click', function () {
-    cardPhoto.src = popupImgBtn.src;
-    cardPhoto.alt = popupImgBtn.alt;
-    cardPhotoPlace.textContent = cardElementInfo.textContent;
-    openPopup(popupImg);
-  });
-  return cardElement;
-};
 //добавление карточек
 const addCard = item => {
-  const cardElement = createCard(item);
-  cardConteiner.append(cardElement);
+  const cardElement = new Card(item, '.template-item');
+  const cardElem = cardElement.render();
+  cardConteiner.append(cardElem);
+  return cardElem;
 };
 function addCardEvn(evt) {
   evt.preventDefault();
-  const usersCard = createCard({ name: popInputPlace.value, link: popInputLink.value });
+  const usersCard = addCard({ name: popInputPlace.value, link: popInputLink.value });
   cardConteiner.prepend(usersCard);
   evt.target.reset();
   close(popupCard);
   //Делает кнопку не активной
-  deactiveButton (submitButtonDisabled, validationSettings);
+  // deactiveButton(submitButtonDisabled, validationSettings);
+  formValidatorAdd.resetValidation();
 }
 //цикл массива с загрузкой картинок при открывании страницы
 initialCards.forEach(addCard);
@@ -122,7 +108,9 @@ formElementProfile.addEventListener('submit', handleProfileFormSubmit);
 //Отправление добавленной картинки
 formAddCard.addEventListener('submit', addCardEvn);
 
+const formValidatorAdd = new FormValidator(validationSettings, popupCard);
+const formValidatorEdit = new FormValidator(validationSettings, popupProfile);
+formValidatorAdd.enableValidation()
+formValidatorEdit.enableValidation();
 
-
-
-
+export { openPopup }
