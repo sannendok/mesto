@@ -13,7 +13,6 @@ class FormValidator{
   };
 
 // функция, проверяющая валидность полей
-
 _isValid(inputElement) {
   if (!inputElement.validity.valid) {
   this._showInputError(inputElement, inputElement.validationMessage);
@@ -23,7 +22,6 @@ _isValid(inputElement) {
 };
 
 // функция, показывающая ошибку ввода
-
   _showInputError(inputElement, errorMessage) {
       const errorElement = this._formElement.querySelector(`.${inputElement.id}-error`);
       inputElement.classList.add(this._inputErrorClass);
@@ -32,7 +30,6 @@ _isValid(inputElement) {
   }
 
 // функция, скрывающая ошибку ввода
-
   _hideInputError(inputElement) {
       const errorElement = this._formElement.querySelector(`.${inputElement.id}-error`);
       inputElement.classList.remove(this._inputErrorClass);
@@ -41,7 +38,6 @@ _isValid(inputElement) {
   };
 
 // переключение активности кнопки Submit
-
 _toggleButtonState() {
   if (this._hasInvalidInput()) {
   this._buttonElement.classList.add(this._inactiveButtonClass);
@@ -59,7 +55,6 @@ _toggleButtonState() {
     };
 
 // универсальная функция добавления обработчика всем полям формы
-
   _setEventListeners() {      
       this._toggleButtonState();
       this._inputList.forEach((inputElement) => {
