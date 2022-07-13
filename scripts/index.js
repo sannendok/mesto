@@ -36,7 +36,7 @@ const closePopup = (element) => {
   document.removeEventListener('keydown', keyEscHandler);
 };
 
-const getInfoProf = () => {
+const getInfoProfile = () => {
   popupInputName.value = profileName.textContent;
   popupInputDescription.value = profileDescription.textContent;
 };
@@ -79,7 +79,7 @@ function handleProfileFormSubmit(evt) {
 
 //Открытие редактирование профиля
 popupOpenButtonProfile.addEventListener('click', () => {
-  getInfoProf();
+  getInfoProfile();
   openPopup(popupProfile);
 });
 
