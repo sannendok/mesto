@@ -1,5 +1,7 @@
 import Card from './Card.js'
 import FormValidator from './FormValidator.js'
+import Section from './Section.js'
+
 
 const popups = document.querySelectorAll('.popup');
 const popupCard = document.querySelector('.card-popup');
@@ -42,19 +44,34 @@ const getInfoProfile = () => {
 };
 
 //добавление карточек
-const addCard = item => {
-  const cardElement = new Card(item, '.template-item');
-  const cardsElement = cardElement.render();
-  return cardsElement;
-};
+// const addCard = item => {
+//   const cardElement = new Card(item, '.template-item');
+//   const cardsElement = cardElement.render();
+//   return cardsElement;
+// };
 
-const renderCard = (card) => {
-  cardContainer.append(card);
-};
+// const addCardq = item => {
+//   const cardRuch = new Section({
+//     data: initialCards,
+//     renderer: () => {
+//       const card = new Card({ name: popupInputPlace.value, link: popupInputLink.value }, '.template-item');
+//       const cardElement = card.render();
+//       defaultCardList.addItem(cardElement);
+//     }
+//   }, '.elements__list');
+//   return cardRuch;
+// };
 
 function addCardHandler(evt) {
   evt.preventDefault();
-  const usersCard = addCard({ name: popupInputPlace.value, link: popupInputLink.value });
+  const usersCard = new Section({
+    data: { name: popupInputPlace.value, link: popupInputLink.value },
+    renderer: (data) => {
+      const card = new Card(data, '.template-item');
+      const cardElement = card.render();
+      usersCard.addItem(cardElement);
+    }
+  }, '.elements__list');
   cardContainer.prepend(usersCard);
   evt.target.reset();
   closePopup(popupCard);
@@ -62,11 +79,39 @@ function addCardHandler(evt) {
   formValidatorAdd.resetValidation();
 };
 
+
+// const renderCard = (card) => {
+//   cardContainer.append(card);
+// };
+
+// function addCardHandler(evt) {
+//   evt.preventDefault();
+//   const usersCard = addCard({ name: popupInputPlace.value, link: popupInputLink.value });
+//   cardContainer.prepend(usersCard);
+//   evt.target.reset();
+//   closePopup(popupCard);
+//   //Делает кнопку не активной
+//   formValidatorAdd.resetValidation();
+// };
+
 //цикл массива с загрузкой картинок при открывании страницы
-initialCards.forEach((item) => {
-  const card = addCard(item);
-  renderCard(card);
-});
+// initialCards.forEach((item) => {
+//   const card = addCard(item);
+//   renderCard(card);
+// });
+
+
+const defaultCardList = new Section({
+  data: initialCards,
+  renderer: (item) => {
+    const card = new Card(item, '.template-item');
+    const cardElement = card.render();
+    defaultCardList.addItem(cardElement);
+  }
+}, '.elements__list');
+
+
+
 
 function handleProfileFormSubmit(evt) {
   evt.preventDefault();
@@ -124,5 +169,8 @@ const formValidatorAdd = new FormValidator(validationSettings, popupCard);
 const formValidatorEdit = new FormValidator(validationSettings, popupProfile);
 formValidatorAdd.enableValidation()
 formValidatorEdit.enableValidation();
+
+
+defaultCardList.renderer();
 
 export { openPopup }
