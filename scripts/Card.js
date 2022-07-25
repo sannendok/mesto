@@ -1,11 +1,21 @@
-import { openPopup } from './index.js'
-import { cardPhoto, cardPhotoPlace, cardPhotoOpen} from './utils/constants.js'
+//import { openPopup } from './index.js'
+import { cardPhoto, cardPhotoPlace, cardPhotoOpen } from './utils/constants.js'
+import Popup from "./Popup.js";
 
 class Card {
-  constructor(data, cardSelector) {
+  constructor(data, cardSelector, handleCardClick) {
     this._cardName = data.name;
     this._cardPic = data.link;
     this._cardSelector = cardSelector;
+    this._handleCardClick = handleCardClick;
+  };
+
+
+  _handleCardClick() {
+    this._handleCardClick({
+      name: this._cardName,
+      link: this._cardPic,
+    })
   };
 
   _getTemplate() {
@@ -39,7 +49,7 @@ class Card {
     cardPhoto.src = this._cardPic;
     cardPhotoPlace.alt = this._cardName;
     cardPhotoPlace.textContent = this._cardName;
-    openPopup(cardPhotoOpen);
+    Popup.open(cardPhotoOpen);
   };
 
   render() {
