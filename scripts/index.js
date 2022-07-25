@@ -44,34 +44,16 @@ const getInfoProfile = () => {
 };
 
 //добавление карточек
-// const addCard = item => {
-//   const cardElement = new Card(item, '.template-item');
-//   const cardsElement = cardElement.render();
-//   return cardsElement;
-// };
+const addCard = item => {
+  const cardElement = new Card(item, '.template-item');
+  const cardsElement = cardElement.render();
+  return cardsElement;
+};
 
-// const addCardq = item => {
-//   const cardRuch = new Section({
-//     data: initialCards,
-//     renderer: () => {
-//       const card = new Card({ name: popupInputPlace.value, link: popupInputLink.value }, '.template-item');
-//       const cardElement = card.render();
-//       defaultCardList.addItem(cardElement);
-//     }
-//   }, '.elements__list');
-//   return cardRuch;
-// };
 
 function addCardHandler(evt) {
   evt.preventDefault();
-  const usersCard = new Section({
-    data: { name: popupInputPlace.value, link: popupInputLink.value },
-    renderer: (data) => {
-      const card = new Card(data, '.template-item');
-      const cardElement = card.render();
-      usersCard.addItem(cardElement);
-    }
-  }, '.elements__list');
+  const usersCard = addCard({ name: popupInputPlace.value, link: popupInputLink.value });
   cardContainer.prepend(usersCard);
   evt.target.reset();
   closePopup(popupCard);
@@ -79,27 +61,7 @@ function addCardHandler(evt) {
   formValidatorAdd.resetValidation();
 };
 
-
-// const renderCard = (card) => {
-//   cardContainer.append(card);
-// };
-
-// function addCardHandler(evt) {
-//   evt.preventDefault();
-//   const usersCard = addCard({ name: popupInputPlace.value, link: popupInputLink.value });
-//   cardContainer.prepend(usersCard);
-//   evt.target.reset();
-//   closePopup(popupCard);
-//   //Делает кнопку не активной
-//   formValidatorAdd.resetValidation();
-// };
-
 //цикл массива с загрузкой картинок при открывании страницы
-// initialCards.forEach((item) => {
-//   const card = addCard(item);
-//   renderCard(card);
-// });
-
 
 const defaultCardList = new Section({
   data: initialCards,
@@ -109,9 +71,6 @@ const defaultCardList = new Section({
     defaultCardList.addItem(cardElement);
   }
 }, '.elements__list');
-
-
-
 
 function handleProfileFormSubmit(evt) {
   evt.preventDefault();
@@ -172,5 +131,5 @@ formValidatorEdit.enableValidation();
 
 
 defaultCardList.renderer();
-
+//defaultCardList ();
 export { openPopup }
