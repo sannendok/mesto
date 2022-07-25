@@ -3,6 +3,7 @@ import FormValidator from './FormValidator.js'
 import Section from './Section.js'
 import Popup from "./Popup.js";
 import UserInfo from "./UserInfo.js";
+import PopupWithImage from "./PopupWithImage.js";
 
 
 //const popups = document.querySelectorAll('.popup');
@@ -27,6 +28,7 @@ import {
   popupInputDescription,
   profileName,
   profileDescription,
+  cardPhotoOpen
 } from "./utils/constants.js";
 
 
@@ -44,6 +46,9 @@ userPopup.setEventListeners();
 
 const cardPopup = new Popup(popupCard);
 cardPopup.setEventListeners();
+
+const popupWithImage = new PopupWithImage(cardPhotoOpen);
+popupWithImage.setEventListeners();
 
 const userInfo = new UserInfo (profileName, profileDescription);
 
@@ -63,14 +68,20 @@ const userInfo = new UserInfo (profileName, profileDescription);
 //   //Делает кнопку не активной
 //   formValidatorAdd.resetValidation();
 // };
+function handleCardClick(name, link) {
+  popupWithImage.open(name, link);
+}
+function handleCreateCard(data) {
+  const userCard = new Card(data, '.template-item', handleCardClick).render();
 
+  return userCard;
+}
 //цикл массива с загрузкой картинок при открывании страницы
 const defaultCardList = new Section({
   data: initialCards,
   renderer: (item) => {
-    const card = new Card(item, '.template-item');
-    const cardElement = card.render();
-    defaultCardList.addItem(cardElement);
+    const card = handleCreateCard(item);
+    defaultCardList.addItem(card);
   }
 }, '.elements__list');
 
@@ -98,35 +109,6 @@ formElementProfile.addEventListener('submit', handleProfileFormSubmit);
 // popupOpenAdd.addEventListener('click', () => {
 //   openPopup(popupCard);
 // });
-
-// Поиск закрывающих элементов
-// popups.forEach((popup) => {
-//   popup.addEventListener('click', e => {
-//     if (e.target.classList.contains("popup__close")) {
-//       closePopup(popup);
-//     }
-//   });
-// });
-
-// // функция, закрывающая попап клавишей escape
-// const keyEscHandler = e => {
-//   if (e.key === 'Escape') {
-//     const element = document.querySelector('.popup_open');
-//     closePopup(element);
-//   }
-// };
-
-// // обработчик, закрывающий попап кликом на оверлей
-// popups.forEach((popup) => {
-//   popup.addEventListener('click', e => {
-//     if (e.target === e.currentTarget) {
-//       closePopup(popup);
-//     }
-//   });
-// });
-
-//Отправление добавленной картинки
-//formAddCard.addEventListener('submit', addCardHandler);
 
 const formValidatorAdd = new FormValidator(validationSettings, popupCard);
 const formValidatorEdit = new FormValidator(validationSettings, popupProfile);
