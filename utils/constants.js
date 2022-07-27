@@ -1,5 +1,3 @@
-//export { cardPhoto, cardPhotoPlace, cardPhotoOpen, popupInputName, popupInputDescription}
-
 export const cardPhoto = document.querySelector('.popup__card-photo');
 export const cardPhotoPlace = document.querySelector('.popup__card-place');
 export const cardPhotoOpen = document.querySelector('.popup_type_card');
@@ -9,3 +7,8 @@ export const popupCard = document.querySelector('.card-popup');
 export const popupProfile = document.querySelector('.profile-popup');
 export const profileName = document.querySelector('.profile__name');
 export const profileDescription = document.querySelector('.profile__description');
+export const popupOpenButtonProfile = document.querySelector('.profile__edit-button');
+export const popupOpenAdd = document.querySelector('.profile__add-button');
+export const formElementProfile = document.querySelector('.popup__card-add-profile');
+export const cardContainer = document.querySelector('.elements__list');
+export const formAddCard = document.querySelector('.popup__card-add-form');

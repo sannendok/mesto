@@ -1,4 +1,4 @@
-import {popupInputName, popupInputDescription} from './utils/constants.js';
+import {popupInputName, popupInputDescription} from '../utils/constants.js';
 
 export default class UserInfo {
   constructor(profileName, profileDescription) {

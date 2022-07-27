@@ -1,9 +1,3 @@
-//import { openPopup } from './index.js'
-import { cardPhoto, cardPhotoPlace, cardPhotoOpen } from './utils/constants.js'
-import Popup from "./Popup.js";
-//import PopupWithImage from "./PopupWithImage";
-
-
 class Card {
   constructor(data, cardSelector, handleCardClick) {
     this._data = data;
@@ -37,13 +31,6 @@ class Card {
   _likeCard() {
     this._cardLikeButton.classList.toggle('elements__card-like_active');
   };
-
-  // _openImage() {
-  //   cardPhoto.src = this._cardPic;
-  //   cardPhotoPlace.alt = this._cardName;
-  //   cardPhotoPlace.textContent = this._cardName;
-  //   Popup.open(cardPhotoOpen);
-  // };
 
   render() {
     this._element = this._getTemplate();
