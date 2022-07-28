@@ -1,9 +1,9 @@
-import {popupInputName, popupInputDescription} from '../utils/constants.js';
+//import {popupInputName, popupInputDescription} from '../utils/constants.js';
 
 export default class UserInfo {
-  constructor(profileName, profileDescription) {
-    this._profileName = profileName;
-    this._profileDescription = profileDescription;
+  constructor({profileName, profileDescription}) {
+    this._profileName = document.querySelector(profileName);
+    this._profileDescription = document.querySelector(profileDescription);
   };
 
   getUserInfo() {
@@ -14,8 +14,8 @@ export default class UserInfo {
     return this._userInfo;
   };
 
-  setUserInfo() {
-    this._profileName.textContent = popupInputName.value;
-    this._profileDescription.textContent = popupInputDescription.value;
+  setUserInfo({profileName, profileDescription}) {
+    this._profileName.textContent = profileName;
+    this._profileDescription.textContent = profileDescription;
   };
 };

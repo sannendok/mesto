@@ -24,7 +24,7 @@ import {
 } from "../utils/constants.js";
 
 
-const validationSettings = ({
+export const validationSettings = ({
   formSelector: '.popup__form',
   inputSelector: '.popup__input',
   submitButtonSelector: '.popup__button',
@@ -62,7 +62,6 @@ const popupsCard = new PopupWithForm({
 popupsCard.setEventListeners();
 
 popupOpenAdd.addEventListener('click', () => {
-  formAddCard.reset();
   formValidatorAdd.resetValidation();
   popupsCard.open();
 });
