@@ -42,7 +42,7 @@ cardPopup.setEventListeners();
 const popupWithImage = new PopupWithImage(cardPhotoOpen);
 popupWithImage.setEventListeners();
 
-const userInfo = new UserInfo (profileName, profileDescription);
+const userInfo = new UserInfo ({name: ".profile__name", descr: ".profile__description"});
 
 function handleCardClick(name, link) {
   popupWithImage.open(name, link);

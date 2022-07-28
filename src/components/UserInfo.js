@@ -1,9 +1,9 @@
 //import {popupInputName, popupInputDescription} from '../utils/constants.js';
 
 export default class UserInfo {
-  constructor({profileName, profileDescription}) {
-    this._profileName = document.querySelector(profileName);
-    this._profileDescription = document.querySelector(profileDescription);
+  constructor({name, descr}) {
+    this._profileName = document.querySelector(name);
+    this._profileDescription = document.querySelector(descr);
   };
 
   getUserInfo() {
@@ -14,8 +14,8 @@ export default class UserInfo {
     return this._userInfo;
   };
 
-  setUserInfo({profileName, profileDescription}) {
-    this._profileName.textContent = profileName;
-    this._profileDescription.textContent = profileDescription;
+  setUserInfo() {
+    this._profileName.textContent = name;
+    this._profileDescription.textContent = descr;
   };
 };
