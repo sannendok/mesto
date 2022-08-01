@@ -5,6 +5,7 @@ export default class PopupWithForm extends Popup {
   constructor({popupSelector, handleFormSubmit}) {
     super(popupSelector);
     this._handleFormSubmit = handleFormSubmit;
+    this._popupForm = this._popup.querySelector('.popup__form')
     this._inputList = this._popup.querySelectorAll('.popup__input');
   }
 
@@ -19,7 +20,7 @@ export default class PopupWithForm extends Popup {
 
   close() {
     super.close();
-    this._popup.querySelector(validationSettings.formSelector).reset();
+    this._popupForm.reset();
 }
   setEventListeners() {
    

@@ -44,13 +44,25 @@ popupWithImage.setEventListeners();
 
 const userInfo = new UserInfo ({name: ".profile__name", decs: ".profile__description"});
 
+const defaultCardList = new Section({
+  data: initialCards,
+  renderer: (item) => {
+    const card = handleCreateCard(item);
+    defaultCardList.addItem(card);
+  }
+}, '.elements__list');
+
+
 function handleCardClick(name, link) {
   popupWithImage.open(name, link);
 }
+
 function handleCreateCard(data) {
   const userCard = new Card(data, '.template-item', handleCardClick).render();
   return userCard;
 }
+
+
 
 const popupsCard = new PopupWithForm({
   popupSelector: popupCard,
@@ -64,23 +76,10 @@ popupsCard.setEventListeners();
 const userPopup = new PopupWithForm({
   popupSelector: popupProfile,
   handleFormSubmit: () => {
+    userInfo.setUserInfo({name: popupInputName.value, decs: popupInputDescription.value});
   },
 })
 userPopup.setEventListeners()
-
-const defaultCardList = new Section({
-  data: initialCards,
-  renderer: (item) => {
-    const card = handleCreateCard(item);
-    defaultCardList.addItem(card);
-  }
-}, '.elements__list');
-
-function handleProfileFormSubmit(evt) {
-  evt.preventDefault();
-  userInfo.setUserInfo({name: popupInputName.value, decs: popupInputDescription.value});
-  userPopup.close();
-};
 
 popupOpenAdd.addEventListener('click', () => {
   formValidatorAdd.resetValidation();
@@ -94,8 +93,6 @@ popupOpenButtonProfile.addEventListener('click', () => {
   formValidatorEdit.resetValidation()
   userPopup.open();
 });
-
-formElementProfile.addEventListener('submit', handleProfileFormSubmit);
 
 const formValidatorAdd = new FormValidator(validationSettings, popupCard);
 const formValidatorEdit = new FormValidator(validationSettings, popupProfile);
