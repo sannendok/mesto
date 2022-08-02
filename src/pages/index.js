@@ -13,14 +13,9 @@ import {
   popupCard,
   popupInputName,
   popupInputDescription,
-  profileName,
-  profileDescription,
   cardPhotoOpen,
   popupOpenButtonProfile,
-  popupOpenAdd,
-  formElementProfile,
-  cardContainer,
-  formAddCard
+  popupOpenAdd
 } from "../utils/constants.js";
 
 
