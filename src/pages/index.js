@@ -108,13 +108,14 @@ formValidatorEdit.enableValidation();
 
 
 let userId;
-Promise.all([api.getProfile()])
-    .then(([user]) => {
+Promise.all([api.getProfile(), api.getCard()])
+    .then(([user, data]) => {
       userId = user._id;
       userInfo.setUserInfo(user);
-      //userInfo.setNewAvatar(user);
+      userInfo.setNewAvatar(user);
 
-      //defaultCardList.addItem(data.reverse());
+      //defaultCardList.addItem(data);
+      popupAddPlace.renderer(data);
     })
     .catch((err) => console.log(err));
 
