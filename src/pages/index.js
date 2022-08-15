@@ -6,6 +6,7 @@ import Popup from "../components/Popup.js";
 import UserInfo from "../components/UserInfo.js";
 import PopupWithImage from "../components/PopupWithImage.js";
 import PopupWithForm from "../components/PopupWithForm.js";
+import Api from "../components/Api.js";
 import "./index.css";
 
 import { 
@@ -17,6 +18,7 @@ import {
   popupOpenButtonProfile,
   popupOpenAdd
 } from "../utils/constants.js";
+import { apiConfig } from "../utils/constants.js";
 
 
 export const validationSettings = ({
@@ -28,6 +30,7 @@ export const validationSettings = ({
   errorClass: 'popup__error_visible'
 });
 
+const api = new Api(apiConfig);
 // const userPopup = new Popup(popupProfile);
 // userPopup.setEventListeners();
 
@@ -37,7 +40,7 @@ export const validationSettings = ({
 const popupWithImage = new PopupWithImage(cardPhotoOpen);
 popupWithImage.setEventListeners();
 
-const userInfo = new UserInfo ({name: ".profile__name", decs: ".profile__description"});
+const userInfo = new UserInfo ({name: ".profile__name", about: ".profile__description", avatar: '.profile__avatar'});
 
 const defaultCardList = new Section({
   data: initialCards,
@@ -84,8 +87,8 @@ popupOpenAdd.addEventListener('click', () => {
 
 const userPopup = new PopupWithForm({
   popupSelector: popupProfile,
-  handleFormSubmit: ({name, decs}) => {
-    userInfo.setUserInfo({name, decs});
+  handleFormSubmit: ({name, about}) => {
+    userInfo.setUserInfo({name, about});
   },
 })
 userPopup.setEventListeners()
@@ -103,4 +106,25 @@ const formValidatorEdit = new FormValidator(validationSettings, popupProfile);
 formValidatorAdd.enableValidation()
 formValidatorEdit.enableValidation();
 
+
+let userId;
+Promise.all([api.getProfile()])
+    .then(([user]) => {
+      userId = user._id;
+      userInfo.setUserInfo(user);
+      //userInfo.setNewAvatar(user);
+
+      //defaultCardList.addItem(data.reverse());
+    })
+    .catch((err) => console.log(err));
+
+// Promise.all([api.getProfile(), api.getCard()])
+//     .then(([user, data]) => {
+//       userId = user._id;
+//       userInfo.setUserInfo(user);
+//       //userInfo.setNewAvatar(user);
+
+//       defaultCardList.addItem(data.reverse());
+//     })
+//     .catch((err) => console.log(err));
 

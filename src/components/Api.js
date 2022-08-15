@@ -1,4 +1,4 @@
-import { apiConfig } from "../utils/constants.js";
+//import { apiConfig } from "../utils/constants.js";
 
 export default class Api {
   constructor(apiConfig) {
@@ -21,4 +21,13 @@ export default class Api {
     })
     .then((res) => this._getResponse(res))
   }
+  getCard() {
+    return fetch(`${this._url}/cards`, {
+      credentials: 'omit',
+      method: 'GET',
+      headers: this._headers
+    })
+    .then((res) => this._getResponse(res))
+  }
+
 };

@@ -12,6 +12,7 @@ export const popupOpenAdd = document.querySelector('.profile__add-button');
 export const formElementProfile = document.querySelector('.popup__card-add-profile');
 export const cardContainer = document.querySelector('.elements__list');
 export const formAddCard = document.querySelector('.popup__card-add-form');
+//export const avatar = document.querySelector('.profile__avatar');
 
 
 export const apiConfig = ({
