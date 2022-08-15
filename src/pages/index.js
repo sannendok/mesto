@@ -84,8 +84,8 @@ popupOpenAdd.addEventListener('click', () => {
 
 const userPopup = new PopupWithForm({
   popupSelector: popupProfile,
-  handleFormSubmit: () => {
-    userInfo.setUserInfo({name: popupInputName.value, decs: popupInputDescription.value});
+  handleFormSubmit: ({name, decs}) => {
+    userInfo.setUserInfo({name, decs});
   },
 })
 userPopup.setEventListeners()
