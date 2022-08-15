@@ -12,3 +12,12 @@ export const popupOpenAdd = document.querySelector('.profile__add-button');
 export const formElementProfile = document.querySelector('.popup__card-add-profile');
 export const cardContainer = document.querySelector('.elements__list');
 export const formAddCard = document.querySelector('.popup__card-add-form');
+
+
+export const apiConfig = ({
+  headers: {
+    authorization: '2232b209-0a15-411b-aea2-9c5fabb4d070',
+    'Content-Type': 'application/json'
+  },
+  url: 'https://nomoreparties.co/v1/cohort-47'
+}); 
