@@ -1,4 +1,3 @@
-import {initialCards} from "../utils/cards.js";
 import Card from '../components/Card.js'
 import FormValidator from '../components/FormValidator.js'
 import Section from '../components/Section.js'
@@ -31,11 +30,6 @@ export const validationSettings = ({
 });
 
 const api = new Api(apiConfig);
-// const userPopup = new Popup(popupProfile);
-// userPopup.setEventListeners();
-
-// const cardPopup = new Popup(popupCard);
-// cardPopup.setEventListeners();
 
 const popupWithImage = new PopupWithImage(cardPhotoOpen);
 popupWithImage.setEventListeners();
@@ -43,13 +37,11 @@ popupWithImage.setEventListeners();
 const userInfo = new UserInfo ({name: ".profile__name", about: ".profile__description", avatar: '.profile__avatar'});
 
 const defaultCardList = new Section({
-  data: initialCards,
   renderer: (item) => {
     const card = handleCreateCard(item);
     defaultCardList.addItem(card);
   }
 }, '.elements__list');
-defaultCardList.renderer();
 
 function handleCardClick(name, link) {
   popupWithImage.open(name, link);
@@ -76,19 +68,21 @@ popupOpenAdd.addEventListener('click', () => {
   popupAddPlace.open();
 });
 
-// const popupsCard = new PopupWithForm({
-//   popupSelector: popupCard,
-//   handleFormSubmit: (formData) => {
-//     const element = handleCreateCard(formData, '.template-item');
-//     cardContainer.prepend(element);
-//   }
+// const userPopup = new PopupWithForm({
+//   popupSelector: popupProfile,
+//   handleFormSubmit: ({name, about}) => {
+//     userInfo.setUserInfo({name, about});
+//   },
 // })
-// popupsCard.setEventListeners();
-
 const userPopup = new PopupWithForm({
   popupSelector: popupProfile,
   handleFormSubmit: ({name, about}) => {
-    userInfo.setUserInfo({name, about});
+    api.editProfile({name, about})
+    .then(() => {
+      userInfo.setUserInfo({name, about});
+     // popupProfile.close();
+    })
+    .catch((err) => console.log(err))
   },
 })
 userPopup.setEventListeners()
@@ -106,7 +100,6 @@ const formValidatorEdit = new FormValidator(validationSettings, popupProfile);
 formValidatorAdd.enableValidation()
 formValidatorEdit.enableValidation();
 
-
 let userId;
 Promise.all([api.getProfile(), api.getCard()])
     .then(([user, data]) => {
@@ -114,18 +107,7 @@ Promise.all([api.getProfile(), api.getCard()])
       userInfo.setUserInfo(user);
       userInfo.setNewAvatar(user);
 
-      //defaultCardList.addItem(data);
-      popupAddPlace.renderer(data);
+      defaultCardList.renderer(data);
     })
     .catch((err) => console.log(err));
-
-// Promise.all([api.getProfile(), api.getCard()])
-//     .then(([user, data]) => {
-//       userId = user._id;
-//       userInfo.setUserInfo(user);
-//       //userInfo.setNewAvatar(user);
-
-//       defaultCardList.addItem(data.reverse());
-//     })
-//     .catch((err) => console.log(err));
 

@@ -11,7 +11,6 @@ export default class Api {
     if (res.ok) {
       return res.json();
     }
-
     return Promise.reject(`Ошибка: ${res.status}`);
   }
   getProfile() {
@@ -28,6 +27,19 @@ export default class Api {
       headers: this._headers
     })
     .then((res) => this._getResponse(res))
+  }
+
+  editProfile(data) {
+    return fetch(`${this._url}/users/me`, {
+      method: 'PATCH',
+      headers: this._headers,
+      body: JSON.stringify({
+        name: data.name,
+        about: data.about
+      })
+    })
+    .then((res) => this._getResponse(res))
+    
   }
 
 };
