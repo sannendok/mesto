@@ -29,10 +29,10 @@ class Card {
     this._element.querySelector('.elements__item-image').addEventListener('click', () => this._handleCardClick(this._data.name, this._data.link));
   };
 
-  _handleDeleteCard() {
+  deleteCard() {
     this._element.remove();
-    this._element = null;
-  };
+    this._element = null
+}
 
   _likeCard() {
     this._cardLikeButton.classList.toggle('elements__card-like_active');

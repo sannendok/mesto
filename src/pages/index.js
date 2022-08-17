@@ -7,7 +7,7 @@ import PopupWithImage from "../components/PopupWithImage.js";
 import PopupWithForm from "../components/PopupWithForm.js";
 import Api from "../components/Api.js";
 import "./index.css";
-import PopupWithConfirmation from "../components/PopupWithConfirmation";
+import PopupWithConfirmation from "../components/PopupWithConfirmation.js";
 
 import {
   popupProfile,
@@ -98,6 +98,18 @@ const userPopup = new PopupWithForm({
 })
 userPopup.setEventListeners()
 
+
+// // document.querySelector('.popup__remove-btn').addEventListener('click', e => {
+// //  popupDelete.classList.remove('popup_open');
+// // })
+// document.querySelector('.popup__remove-btn').addEventListener('submit', e => {
+//   e.preventDefault();
+//  popupDelete.classList.remove('popup_open');
+// })
+
+
+
+
 popupOpenButtonProfile.addEventListener('click', () => {
   const getInputValues = userInfo.getUserInfo();
   popupInputName.value = getInputValues.inputName;
@@ -127,14 +139,14 @@ popupDeleteCard.setEventListeners();
 
   function handleDeleteCard(cardId) {
     popupDeleteCard.open();
-    // popupDelete.setConfirmHandler(() => {
+    popupDeleteCard.setConfirmHandler(() => {
     //   popupDelete.renderLoading(true, loadingTextConfig.loadingTextDelete)
       api.deleteCard(cardId)
         .then(() => {
           this.deleteCard();
-          popupDeleteCard.close();
+         popupDeleteCard.close();
         })
         .catch((err)  => console.log(err))
         // .finally(() => popupDelete.renderLoading(false, loadingTextConfig.loadingDeleteDefault))
-    // })
+     })
   };

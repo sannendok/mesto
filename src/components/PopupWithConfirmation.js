@@ -11,11 +11,14 @@ export default class PopupWithConfirmation extends Popup {
   }
 
   setEventListeners() {
-    this._popup.addEventListener('submit', e => {
+    document.querySelector('.popup__remove-btn').addEventListener('submit', e => {
       e.preventDefault();
-      this._confirmHandler()
+      // this._confirmHandler()
+      this._popup.classList.remove('popup_open');
     })
     
     super.setEventListeners();
   }
+
 }
+
