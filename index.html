@@ -16,7 +16,7 @@
     </header>
     <main class="content">
         <section class="profile">
-            <img class="profile__avatar" src="images/avatar.e7d376649aca6b620fcf.jpg" alt="Аватар">
+            <img name ="avatar" class="profile__avatar" src="images/avatar.e7d376649aca6b620fcf.jpg" alt="Аватар">
             <div class="profile__info">
                 <div class="profile__container">
                     <h1 class="profile__name">Жак-Ив Кусто</h1>
@@ -50,7 +50,7 @@
                     <span id="error-name" class="popup__error name-error"></span>
                 </label>
                 <label class="popup__form-label">
-                    <input id="bio" name="decs" class="popup__input popup__input_value_description" type="text"
+                    <input id="bio" name="about" class="popup__input popup__input_value_description" type="text"
                         placeholder="Расскажи о себе" minlength="2" maxlength="200" required>
                     <span id="error-bio" class="popup__error bio-error"></span>
                 </label>
@@ -93,7 +93,9 @@
             <img class="elements__item-image">
             <div class="elements__card-info">
                 <h2 class="elements__card-heading"></h2>
-                <button type="button" class="elements__card-like"></button>
+                <div class="elements__card-likes">
+                    <button type="button" class="elements__card-like"></button>
+                    <div class="elements__card-like-counter">22</div>
             </div>
         </li>
     </template>

@@ -14,6 +14,75 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./src/components/Api.js":
+/*!*******************************!*\
+  !*** ./src/components/Api.js ***!
+  \*******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ Api)
+/* harmony export */ });
+//import { apiConfig } from "../utils/constants.js";
+
+class Api {
+  constructor(apiConfig) {
+    this._getResponse = this._getResponse.bind(this);
+    this._headers = apiConfig.headers;
+    this._url = apiConfig.url;
+  }
+
+  _getResponse(res) {
+    if (res.ok) {
+      return res.json();
+    }
+    return Promise.reject(`Ошибка: ${res.status}`);
+  }
+  getProfile() {
+    return fetch(`${this._url}/users/me`, {
+      method: 'GET',
+      headers: this._headers
+    })
+      .then((res) => this._getResponse(res))
+  }
+  getCard() {
+    return fetch(`${this._url}/cards`, {
+      credentials: 'omit',
+      method: 'GET',
+      headers: this._headers
+    })
+      .then((res) => this._getResponse(res))
+  }
+
+  editProfile(data) {
+    return fetch(`${this._url}/users/me`, {
+      method: 'PATCH',
+      headers: this._headers,
+      body: JSON.stringify({
+        name: data.name,
+        about: data.about
+      })
+    })
+      .then((res) => this._getResponse(res))
+
+  }
+
+  addNewCard(data) {
+    return fetch(`${this._url}/cards`, {
+      method: 'POST',
+      headers: this._headers,
+      body: JSON.stringify({
+        name: data.name,
+        link: data.link
+      })
+    })
+      .then((res) => this._getResponse(res))
+  }
+};
+
+/***/ }),
+
 /***/ "./src/components/Card.js":
 /*!********************************!*\
   !*** ./src/components/Card.js ***!
@@ -241,9 +310,9 @@ class PopupWithForm extends _Popup_js__WEBPACK_IMPORTED_MODULE_0__["default"] {
 
   _getInputValues() {
     this._formValues = {};
-    this._inputList.forEach(input => {
+   this._inputList.forEach(input => {
       this._formValues[input.name] = input.value;
-    });
+   });
 
     return this._formValues;
   };
@@ -309,7 +378,7 @@ __webpack_require__.r(__webpack_exports__);
 
 class Section{
     constructor({data, renderer}, cardContainer){ 
-        this._renderedItems = data;
+      //  this._renderedItems = data;
         this._renderer = renderer;
         this._container = document.querySelector(cardContainer);
     }
@@ -318,8 +387,8 @@ class Section{
        this._container.prepend(element); 
     }
     
-    renderer(){
-        this._renderedItems.forEach(item => {
+    renderer(data){
+        data.forEach(item => {
             this._renderer(item);
           });
     }
@@ -340,9 +409,10 @@ __webpack_require__.r(__webpack_exports__);
 //import {popupInputName, popupInputDescription} from '../utils/constants.js';
 
 class UserInfo {
-  constructor({name, decs}) {
+  constructor({name, about, avatar}) {
     this._profileName = document.querySelector(name);
-    this._profileDescription = document.querySelector(decs);
+    this._profileDescription = document.querySelector(about);
+    this._avatar = document.querySelector(avatar);
   };
 
   getUserInfo() {
@@ -353,10 +423,15 @@ class UserInfo {
     return this._userInfo;
   };
 
-  setUserInfo({name, decs}) {
-    this._profileName.textContent = name;
-    this._profileDescription.textContent = decs;
+  setUserInfo(data) {
+    this._profileName.textContent = data.name;
+    this._profileDescription.textContent = data.about;
+    // this._avatar.src = avatar;
   };
+  setNewAvatar(data) {
+    this._avatar.src = data.avatar;
+    this._avatar.alt = data.name;
+  }
 };
 
 /***/ }),
@@ -371,16 +446,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "validationSettings": () => (/* binding */ validationSettings)
 /* harmony export */ });
-/* harmony import */ var _utils_cards_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/cards.js */ "./src/utils/cards.js");
-/* harmony import */ var _components_Card_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/Card.js */ "./src/components/Card.js");
-/* harmony import */ var _components_FormValidator_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/FormValidator.js */ "./src/components/FormValidator.js");
-/* harmony import */ var _components_Section_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../components/Section.js */ "./src/components/Section.js");
-/* harmony import */ var _components_Popup_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../components/Popup.js */ "./src/components/Popup.js");
-/* harmony import */ var _components_UserInfo_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../components/UserInfo.js */ "./src/components/UserInfo.js");
-/* harmony import */ var _components_PopupWithImage_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../components/PopupWithImage.js */ "./src/components/PopupWithImage.js");
-/* harmony import */ var _components_PopupWithForm_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../components/PopupWithForm.js */ "./src/components/PopupWithForm.js");
+/* harmony import */ var _components_Card_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/Card.js */ "./src/components/Card.js");
+/* harmony import */ var _components_FormValidator_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/FormValidator.js */ "./src/components/FormValidator.js");
+/* harmony import */ var _components_Section_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/Section.js */ "./src/components/Section.js");
+/* harmony import */ var _components_Popup_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../components/Popup.js */ "./src/components/Popup.js");
+/* harmony import */ var _components_UserInfo_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../components/UserInfo.js */ "./src/components/UserInfo.js");
+/* harmony import */ var _components_PopupWithImage_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../components/PopupWithImage.js */ "./src/components/PopupWithImage.js");
+/* harmony import */ var _components_PopupWithForm_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../components/PopupWithForm.js */ "./src/components/PopupWithForm.js");
+/* harmony import */ var _components_Api_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../components/Api.js */ "./src/components/Api.js");
 /* harmony import */ var _index_css__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./index.css */ "./src/pages/index.css");
 /* harmony import */ var _utils_constants_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../utils/constants.js */ "./src/utils/constants.js");
+
 
 
 
@@ -403,41 +479,41 @@ const validationSettings = ({
   errorClass: 'popup__error_visible'
 });
 
-// const userPopup = new Popup(popupProfile);
-// userPopup.setEventListeners();
+const api = new _components_Api_js__WEBPACK_IMPORTED_MODULE_7__["default"](_utils_constants_js__WEBPACK_IMPORTED_MODULE_9__.apiConfig);
 
-// const cardPopup = new Popup(popupCard);
-// cardPopup.setEventListeners();
-
-const popupWithImage = new _components_PopupWithImage_js__WEBPACK_IMPORTED_MODULE_6__["default"](_utils_constants_js__WEBPACK_IMPORTED_MODULE_9__.cardPhotoOpen);
+const popupWithImage = new _components_PopupWithImage_js__WEBPACK_IMPORTED_MODULE_5__["default"](_utils_constants_js__WEBPACK_IMPORTED_MODULE_9__.cardPhotoOpen);
 popupWithImage.setEventListeners();
 
-const userInfo = new _components_UserInfo_js__WEBPACK_IMPORTED_MODULE_5__["default"] ({name: ".profile__name", decs: ".profile__description"});
+const userInfo = new _components_UserInfo_js__WEBPACK_IMPORTED_MODULE_4__["default"]({ name: ".profile__name", about: ".profile__description", avatar: '.profile__avatar' });
 
-const defaultCardList = new _components_Section_js__WEBPACK_IMPORTED_MODULE_3__["default"]({
-  data: _utils_cards_js__WEBPACK_IMPORTED_MODULE_0__.initialCards,
+const defaultCardList = new _components_Section_js__WEBPACK_IMPORTED_MODULE_2__["default"]({
   renderer: (item) => {
     const card = handleCreateCard(item);
     defaultCardList.addItem(card);
   }
 }, '.elements__list');
-defaultCardList.renderer();
 
 function handleCardClick(name, link) {
   popupWithImage.open(name, link);
 }
 
 function handleCreateCard(data) {
-  const userCard = new _components_Card_js__WEBPACK_IMPORTED_MODULE_1__["default"](data, '.template-item', handleCardClick).render();
+  const userCard = new _components_Card_js__WEBPACK_IMPORTED_MODULE_0__["default"](data, '.template-item', handleCardClick).render();
   return userCard;
 }
 
 function placeSubmit(obj) {
-  const place = handleCreateCard(obj);
-  defaultCardList.addItem(place);
+  api.addNewCard(obj)
+    .then((obj) => {
+      const place = handleCreateCard(obj);
+      defaultCardList.addItem(place);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 }
 
- const popupAddPlace = new _components_PopupWithForm_js__WEBPACK_IMPORTED_MODULE_7__["default"]({
+const popupAddPlace = new _components_PopupWithForm_js__WEBPACK_IMPORTED_MODULE_6__["default"]({
   popupSelector: _utils_constants_js__WEBPACK_IMPORTED_MODULE_9__.popupCard,
   handleFormSubmit: placeSubmit,
 });
@@ -448,19 +524,21 @@ _utils_constants_js__WEBPACK_IMPORTED_MODULE_9__.popupOpenAdd.addEventListener('
   popupAddPlace.open();
 });
 
-// const popupsCard = new PopupWithForm({
-//   popupSelector: popupCard,
-//   handleFormSubmit: (formData) => {
-//     const element = handleCreateCard(formData, '.template-item');
-//     cardContainer.prepend(element);
-//   }
+// const userPopup = new PopupWithForm({
+//   popupSelector: popupProfile,
+//   handleFormSubmit: ({name, about}) => {
+//     userInfo.setUserInfo({name, about});
+//   },
 // })
-// popupsCard.setEventListeners();
-
-const userPopup = new _components_PopupWithForm_js__WEBPACK_IMPORTED_MODULE_7__["default"]({
+const userPopup = new _components_PopupWithForm_js__WEBPACK_IMPORTED_MODULE_6__["default"]({
   popupSelector: _utils_constants_js__WEBPACK_IMPORTED_MODULE_9__.popupProfile,
-  handleFormSubmit: ({name, decs}) => {
-    userInfo.setUserInfo({name, decs});
+  handleFormSubmit: ({ name, about }) => {
+    api.editProfile({ name, about })
+      .then(() => {
+        userInfo.setUserInfo({ name, about });
+        // popupProfile.close();
+      })
+      .catch((err) => console.log(err))
   },
 })
 userPopup.setEventListeners()
@@ -473,54 +551,22 @@ _utils_constants_js__WEBPACK_IMPORTED_MODULE_9__.popupOpenButtonProfile.addEvent
   userPopup.open();
 });
 
-const formValidatorAdd = new _components_FormValidator_js__WEBPACK_IMPORTED_MODULE_2__["default"](validationSettings, _utils_constants_js__WEBPACK_IMPORTED_MODULE_9__.popupCard);
-const formValidatorEdit = new _components_FormValidator_js__WEBPACK_IMPORTED_MODULE_2__["default"](validationSettings, _utils_constants_js__WEBPACK_IMPORTED_MODULE_9__.popupProfile);
+const formValidatorAdd = new _components_FormValidator_js__WEBPACK_IMPORTED_MODULE_1__["default"](validationSettings, _utils_constants_js__WEBPACK_IMPORTED_MODULE_9__.popupCard);
+const formValidatorEdit = new _components_FormValidator_js__WEBPACK_IMPORTED_MODULE_1__["default"](validationSettings, _utils_constants_js__WEBPACK_IMPORTED_MODULE_9__.popupProfile);
 formValidatorAdd.enableValidation()
 formValidatorEdit.enableValidation();
 
+let userId;
+Promise.all([api.getProfile(), api.getCard()])
+  .then(([user, data]) => {
+    userId = user._id;
+    userInfo.setUserInfo(user);
+    userInfo.setNewAvatar(user);
 
+    defaultCardList.renderer(data);
+  })
+  .catch((err) => console.log(err));
 
-
-/***/ }),
-
-/***/ "./src/utils/cards.js":
-/*!****************************!*\
-  !*** ./src/utils/cards.js ***!
-  \****************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "initialCards": () => (/* binding */ initialCards)
-/* harmony export */ });
-const initialCards = [
-    {
-      name: 'Архыз',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-    },
-    {
-      name: 'Челябинская область',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-    },
-    {
-      name: 'Иваново',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-    },
-    {
-      name: 'Камчатка',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-    },
-    {
-      name: 'Холмогорский район',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-    },
-    {
-      name: 'Байкал',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-    }
-  ];
-  
-  
 
 /***/ }),
 
@@ -532,6 +578,7 @@ const initialCards = [
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "apiConfig": () => (/* binding */ apiConfig),
 /* harmony export */   "cardContainer": () => (/* binding */ cardContainer),
 /* harmony export */   "cardPhoto": () => (/* binding */ cardPhoto),
 /* harmony export */   "cardPhotoOpen": () => (/* binding */ cardPhotoOpen),
@@ -561,6 +608,16 @@ const popupOpenAdd = document.querySelector('.profile__add-button');
 const formElementProfile = document.querySelector('.popup__card-add-profile');
 const cardContainer = document.querySelector('.elements__list');
 const formAddCard = document.querySelector('.popup__card-add-form');
+//export const avatar = document.querySelector('.profile__avatar');
+
+
+const apiConfig = ({
+  headers: {
+    authorization: '2232b209-0a15-411b-aea2-9c5fabb4d070',
+    'Content-Type': 'application/json'
+  },
+  url: 'https://nomoreparties.co/v1/cohort-47'
+}); 
 
 /***/ })
 
