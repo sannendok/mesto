@@ -110,4 +110,3 @@ Promise.all([api.getProfile(), api.getCard()])
       defaultCardList.renderer(data);
     })
     .catch((err) => console.log(err));
-
