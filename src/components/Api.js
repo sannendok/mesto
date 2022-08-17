@@ -18,7 +18,7 @@ export default class Api {
       method: 'GET',
       headers: this._headers
     })
-    .then((res) => this._getResponse(res))
+      .then((res) => this._getResponse(res))
   }
   getCard() {
     return fetch(`${this._url}/cards`, {
@@ -26,7 +26,7 @@ export default class Api {
       method: 'GET',
       headers: this._headers
     })
-    .then((res) => this._getResponse(res))
+      .then((res) => this._getResponse(res))
   }
 
   editProfile(data) {
@@ -38,8 +38,19 @@ export default class Api {
         about: data.about
       })
     })
-    .then((res) => this._getResponse(res))
-    
+      .then((res) => this._getResponse(res))
+
   }
 
+  addNewCard(data) {
+    return fetch(`${this._url}/cards`, {
+      method: 'POST',
+      headers: this._headers,
+      body: JSON.stringify({
+        name: data.name,
+        link: data.link
+      })
+    })
+      .then((res) => this._getResponse(res))
+  }
 };

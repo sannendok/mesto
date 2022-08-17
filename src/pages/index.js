@@ -8,7 +8,7 @@ import PopupWithForm from "../components/PopupWithForm.js";
 import Api from "../components/Api.js";
 import "./index.css";
 
-import { 
+import {
   popupProfile,
   popupCard,
   popupInputName,
@@ -34,7 +34,7 @@ const api = new Api(apiConfig);
 const popupWithImage = new PopupWithImage(cardPhotoOpen);
 popupWithImage.setEventListeners();
 
-const userInfo = new UserInfo ({name: ".profile__name", about: ".profile__description", avatar: '.profile__avatar'});
+const userInfo = new UserInfo({ name: ".profile__name", about: ".profile__description", avatar: '.profile__avatar' });
 
 const defaultCardList = new Section({
   renderer: (item) => {
@@ -53,11 +53,17 @@ function handleCreateCard(data) {
 }
 
 function placeSubmit(obj) {
-  const place = handleCreateCard(obj);
-  defaultCardList.addItem(place);
+  api.addNewCard(obj)
+    .then((obj) => {
+      const place = handleCreateCard(obj);
+      defaultCardList.addItem(place);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 }
 
- const popupAddPlace = new PopupWithForm({
+const popupAddPlace = new PopupWithForm({
   popupSelector: popupCard,
   handleFormSubmit: placeSubmit,
 });
@@ -76,13 +82,13 @@ popupOpenAdd.addEventListener('click', () => {
 // })
 const userPopup = new PopupWithForm({
   popupSelector: popupProfile,
-  handleFormSubmit: ({name, about}) => {
-    api.editProfile({name, about})
-    .then(() => {
-      userInfo.setUserInfo({name, about});
-     // popupProfile.close();
-    })
-    .catch((err) => console.log(err))
+  handleFormSubmit: ({ name, about }) => {
+    api.editProfile({ name, about })
+      .then(() => {
+        userInfo.setUserInfo({ name, about });
+        // popupProfile.close();
+      })
+      .catch((err) => console.log(err))
   },
 })
 userPopup.setEventListeners()
@@ -102,11 +108,11 @@ formValidatorEdit.enableValidation();
 
 let userId;
 Promise.all([api.getProfile(), api.getCard()])
-    .then(([user, data]) => {
-      userId = user._id;
-      userInfo.setUserInfo(user);
-      userInfo.setNewAvatar(user);
+  .then(([user, data]) => {
+    userId = user._id;
+    userInfo.setUserInfo(user);
+    userInfo.setNewAvatar(user);
 
-      defaultCardList.renderer(data);
-    })
-    .catch((err) => console.log(err));
+    defaultCardList.renderer(data);
+  })
+  .catch((err) => console.log(err));
