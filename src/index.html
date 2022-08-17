@@ -16,7 +16,7 @@
     </header>
     <main class="content">
         <section class="profile">
-            <img class="profile__avatar" src="<%=require('./images/avatar.jpg')%>" alt="Аватар">
+            <img name ="avatar" class="profile__avatar" src="<%=require('./images/avatar.jpg')%>" alt="Аватар">
             <div class="profile__info">
                 <div class="profile__container">
                     <h1 class="profile__name">Жак-Ив Кусто</h1>
@@ -38,6 +38,16 @@
             &copy; 2022 Mesto Russia
         </p>
     </footer>
+        <!-- попап Удаления -->
+    <div class="popup remove-popup">
+        <div class="popup__conteiner-remove">
+          <button type="button" class="popup__close"></button>
+          <p class="popup__title">Вы уверены?</p>
+          <button class="popup__button popup__remove-btn" type="submit">
+            Да
+          </button>
+        </div>
+      </div>
     <!-- попап редактирования профиля -->
     <div class="popup profile-popup">
         <div class="popup__conteiner">
@@ -50,7 +60,7 @@
                     <span id="error-name" class="popup__error name-error"></span>
                 </label>
                 <label class="popup__form-label">
-                    <input id="bio" name="decs" class="popup__input popup__input_value_description" type="text"
+                    <input id="bio" name="about" class="popup__input popup__input_value_description" type="text"
                         placeholder="Расскажи о себе" minlength="2" maxlength="200" required>
                     <span id="error-bio" class="popup__error bio-error"></span>
                 </label>
@@ -93,7 +103,9 @@
             <img class="elements__item-image">
             <div class="elements__card-info">
                 <h2 class="elements__card-heading"></h2>
-                <button type="button" class="elements__card-like"></button>
+                <div class="elements__card-likes">
+                    <button type="button" class="elements__card-like"></button>
+                    <div class="elements__card-like-counter">22</div>
             </div>
         </li>
     </template>
