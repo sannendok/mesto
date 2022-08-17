@@ -7,6 +7,7 @@ import PopupWithImage from "../components/PopupWithImage.js";
 import PopupWithForm from "../components/PopupWithForm.js";
 import Api from "../components/Api.js";
 import "./index.css";
+import PopupWithConfirmation from "../components/PopupWithConfirmation";
 
 import {
   popupProfile,
@@ -15,7 +16,8 @@ import {
   popupInputDescription,
   cardPhotoOpen,
   popupOpenButtonProfile,
-  popupOpenAdd
+  popupOpenAdd,
+  popupDelete
 } from "../utils/constants.js";
 import { apiConfig } from "../utils/constants.js";
 
@@ -34,6 +36,9 @@ const api = new Api(apiConfig);
 const popupWithImage = new PopupWithImage(cardPhotoOpen);
 popupWithImage.setEventListeners();
 
+// const popupDeleteCard = new PopupWithConfirmation(popupDelete);  
+// popupDeleteCard.setEventListeners();
+
 const userInfo = new UserInfo({ name: ".profile__name", about: ".profile__description", avatar: '.profile__avatar' });
 
 const defaultCardList = new Section({
@@ -48,7 +53,7 @@ function handleCardClick(name, link) {
 }
 
 function handleCreateCard(data) {
-  const userCard = new Card(data, '.template-item', handleCardClick).render();
+  const userCard = new Card(data, '.template-item', handleCardClick, {handleDeleteCard}, userId).render();
   return userCard;
 }
 
@@ -116,3 +121,20 @@ Promise.all([api.getProfile(), api.getCard()])
     defaultCardList.renderer(data);
   })
   .catch((err) => console.log(err));
+
+const popupDeleteCard = new PopupWithConfirmation(popupDelete);  
+popupDeleteCard.setEventListeners();
+
+  function handleDeleteCard(cardId) {
+    popupDeleteCard.open();
+    // popupDelete.setConfirmHandler(() => {
+    //   popupDelete.renderLoading(true, loadingTextConfig.loadingTextDelete)
+      api.deleteCard(cardId)
+        .then(() => {
+          this.deleteCard();
+          popupDeleteCard.close();
+        })
+        .catch((err)  => console.log(err))
+        // .finally(() => popupDelete.renderLoading(false, loadingTextConfig.loadingDeleteDefault))
+    // })
+  };

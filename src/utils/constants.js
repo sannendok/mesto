@@ -13,7 +13,7 @@ export const formElementProfile = document.querySelector('.popup__card-add-profi
 export const cardContainer = document.querySelector('.elements__list');
 export const formAddCard = document.querySelector('.popup__card-add-form');
 //export const avatar = document.querySelector('.profile__avatar');
-
+export const popupDelete = document.querySelector('.remove-popup');
 
 export const apiConfig = ({
   headers: {
