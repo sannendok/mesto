@@ -31,6 +31,15 @@ export const validationSettings = ({
   errorClass: 'popup__error_visible'
 });
 
+const loadingTextConfig = ({
+  loadingTextSave: 'Сохранение...',
+  loadingTextCreate: 'Создание...',
+  loadingTextDelete: 'Удаление...',
+  loadingSaveDefault: 'Сохранить',
+  loadingCreateDefault: 'Создать',
+  loadingDeleteDefault: 'Да'
+});
+
 const api = new Api(apiConfig);
 
 const popupWithImage = new PopupWithImage(cardPhotoOpen);
@@ -53,19 +62,23 @@ function handleCardClick(name, link) {
 }
 
 function handleCreateCard(data) {
-  const userCard = new Card(data, '.template-item', handleCardClick, {handleDeleteCard}, userId).render();
+  const userCard = new Card(data, '.template-item', handleCardClick, { handleDeleteCard }, handlePutLike, handleDeleteLike, userId).render();
   return userCard;
 }
 
 function placeSubmit(obj) {
+  popupAddPlace.renderLoading(true, loadingTextConfig.loadingTextCreate);
   api.addNewCard(obj)
     .then((obj) => {
       const place = handleCreateCard(obj);
       defaultCardList.addItem(place);
     })
     .catch((err) => {
-      console.log(err);
-    });
+      console.log(err);})
+    .finally(() => {
+      popupAddPlace.renderLoading(false, loadingTextConfig.loadingCreateDefault)
+    })
+    ;
 }
 
 const popupAddPlace = new PopupWithForm({
@@ -79,36 +92,20 @@ popupOpenAdd.addEventListener('click', () => {
   popupAddPlace.open();
 });
 
-// const userPopup = new PopupWithForm({
-//   popupSelector: popupProfile,
-//   handleFormSubmit: ({name, about}) => {
-//     userInfo.setUserInfo({name, about});
-//   },
-// })
 const userPopup = new PopupWithForm({
   popupSelector: popupProfile,
   handleFormSubmit: ({ name, about }) => {
+    userPopup.renderLoading(true, loadingTextConfig.loadingTextSave)
     api.editProfile({ name, about })
       .then(() => {
         userInfo.setUserInfo({ name, about });
         // popupProfile.close();
       })
       .catch((err) => console.log(err))
+       .finally(() => userPopup.renderLoading(false, loadingTextConfig.loadingSaveDefault))
   },
 })
 userPopup.setEventListeners()
-
-
-// // document.querySelector('.popup__remove-btn').addEventListener('click', e => {
-// //  popupDelete.classList.remove('popup_open');
-// // })
-// document.querySelector('.popup__remove-btn').addEventListener('submit', e => {
-//   e.preventDefault();
-//  popupDelete.classList.remove('popup_open');
-// })
-
-
-
 
 popupOpenButtonProfile.addEventListener('click', () => {
   const getInputValues = userInfo.getUserInfo();
@@ -134,19 +131,37 @@ Promise.all([api.getProfile(), api.getCard()])
   })
   .catch((err) => console.log(err));
 
-const popupDeleteCard = new PopupWithConfirmation(popupDelete);  
+const popupDeleteCard = new PopupWithConfirmation(popupDelete);
 popupDeleteCard.setEventListeners();
 
-  function handleDeleteCard(cardId) {
-    popupDeleteCard.open();
-    popupDeleteCard.setConfirmHandler(() => {
-    //   popupDelete.renderLoading(true, loadingTextConfig.loadingTextDelete)
-      api.deleteCard(cardId)
-        .then(() => {
-          this.deleteCard();
-         popupDeleteCard.close();
-        })
-        .catch((err)  => console.log(err))
-        // .finally(() => popupDelete.renderLoading(false, loadingTextConfig.loadingDeleteDefault))
-     })
-  };
+function handleDeleteCard(cardId) {
+  popupDeleteCard.open();
+  popupDeleteCard.setConfirmHandler(() => {
+    popupDeleteCard.renderLoading(true, loadingTextConfig.loadingTextDelete)
+    api.deleteCard(cardId)
+      .then(() => {
+        this.deleteCard();
+        popupDeleteCard.close();
+      })
+      .catch((err) => console.log(err))
+      .finally(() => popupDeleteCard.renderLoading(false, loadingTextConfig.loadingDeleteDefault))
+  })
+};
+
+function handlePutLike(card) {
+  api.likeCard(card._cardId)
+    .then((res) => {
+      card.putLike();
+      card.countLikes(res.likes);
+    })
+    .catch((err) => console.log(err))
+};
+
+function handleDeleteLike(card) {
+  api.dislikeCard(card._cardId)
+    .then((res) => {
+      card.deleteLike();
+      card.countLikes(res.likes);
+    })
+    .catch((err) => console.log(err))
+};

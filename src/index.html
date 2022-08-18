@@ -48,6 +48,24 @@
           </button>
         </div>
       </div>
+      <!-- попап редактирования аватара -->
+    <div class="popup popup-avatar">
+        <div class="popup__content-avatar">
+            <button type="button" class="popup__close"></button>
+            <h2 class="popup__title">
+                Обновить аватар
+            </h2>
+            <form name="avatar-change-form" class="popup__form popup__form-add-avatar">
+                <label for="" class="popup__form-label">
+                    <input id="avatar-url" name="link" type="url" class="popup__input popup__input_value_avatar" placeholder="Ссылка на аватар" required>
+                    <span id="error-avatar" class="popup__error avatar-url-error"></span>
+                </label>
+                <button type="submit" class="popup__button popup__card-change-avatar">
+                    Сохранить
+                </button>
+            </form>
+        </div>
+    </div>
     <!-- попап редактирования профиля -->
     <div class="popup profile-popup">
         <div class="popup__conteiner">
