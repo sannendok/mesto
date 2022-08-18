@@ -1,4 +1,3 @@
-
 class FormValidator{
   constructor(validationSettings, formElement) {
       this._formSelector = validationSettings.formSelector;
@@ -72,13 +71,7 @@ _toggleButtonState() {
           this._hideInputError(inputElement);
       });
   };
-
-  // enableValidation() {
-  //     this._formList = Array.from(document.querySelectorAll(this._formSelector));
-  //     this._formList.forEach(() => {
-  //       this._setEventListeners();
-  //     });
-  //   };
+  
     enableValidation(formElement, validationSettings) {
       this._setEventListeners(formElement, validationSettings)
   }

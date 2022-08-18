@@ -4,6 +4,7 @@ export const cardPhotoOpen = document.querySelector('.popup_type_card');
 export const popupInputName = document.querySelector('.popup__input_value_name');
 export const popupInputDescription = document.querySelector('.popup__input_value_description');
 export const popupCard = document.querySelector('.card-popup');
+export const popupOpenAvatar = document.querySelector('.profile__button-change-avatar');
 export const popupProfile = document.querySelector('.profile-popup');
 export const profileName = document.querySelector('.profile__name');
 export const profileDescription = document.querySelector('.profile__description');
@@ -12,7 +13,7 @@ export const popupOpenAdd = document.querySelector('.profile__add-button');
 export const formElementProfile = document.querySelector('.popup__card-add-profile');
 export const cardContainer = document.querySelector('.elements__list');
 export const formAddCard = document.querySelector('.popup__card-add-form');
-//export const avatar = document.querySelector('.profile__avatar');
+export const popupAvatar = document.querySelector('.popup-avatar');
 export const popupDelete = document.querySelector('.remove-popup');
 
 export const apiConfig = ({
@@ -22,3 +23,12 @@ export const apiConfig = ({
   },
   url: 'https://nomoreparties.co/v1/cohort-47'
 }); 
+
+export const loadingTextConfig = ({
+  loadingTextSave: 'Сохранение...',
+  loadingTextCreate: 'Создание...',
+  loadingTextDelete: 'Удаление...',
+  loadingSaveDefault: 'Сохранить',
+  loadingCreateDefault: 'Создать',
+  loadingDeleteDefault: 'Да'
+});
