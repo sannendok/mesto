@@ -1,7 +1,6 @@
 import Card from '../components/Card.js'
 import FormValidator from '../components/FormValidator.js'
 import Section from '../components/Section.js'
-import Popup from "../components/Popup.js";
 import UserInfo from "../components/UserInfo.js";
 import PopupWithImage from "../components/PopupWithImage.js";
 import PopupWithForm from "../components/PopupWithForm.js";
@@ -17,10 +16,12 @@ import {
   cardPhotoOpen,
   popupOpenButtonProfile,
   popupOpenAdd,
-  popupDelete
+  popupDelete,
+  popupOpenAvatar,
+  popupAvatar
 } from "../utils/constants.js";
 import { apiConfig } from "../utils/constants.js";
-
+import {loadingTextConfig} from "../utils/constants.js";
 
 export const validationSettings = ({
   formSelector: '.popup__form',
@@ -29,15 +30,6 @@ export const validationSettings = ({
   inactiveButtonClass: 'popup__button_disabled',
   inputErrorClass: 'popup__input_type_error',
   errorClass: 'popup__error_visible'
-});
-
-const loadingTextConfig = ({
-  loadingTextSave: 'Сохранение...',
-  loadingTextCreate: 'Создание...',
-  loadingTextDelete: 'Удаление...',
-  loadingSaveDefault: 'Сохранить',
-  loadingCreateDefault: 'Создать',
-  loadingDeleteDefault: 'Да'
 });
 
 const api = new Api(apiConfig);
@@ -74,7 +66,8 @@ function placeSubmit(obj) {
       defaultCardList.addItem(place);
     })
     .catch((err) => {
-      console.log(err);})
+      console.log(err);
+    })
     .finally(() => {
       popupAddPlace.renderLoading(false, loadingTextConfig.loadingCreateDefault)
     })
@@ -99,10 +92,9 @@ const userPopup = new PopupWithForm({
     api.editProfile({ name, about })
       .then(() => {
         userInfo.setUserInfo({ name, about });
-        // popupProfile.close();
       })
       .catch((err) => console.log(err))
-       .finally(() => userPopup.renderLoading(false, loadingTextConfig.loadingSaveDefault))
+      .finally(() => userPopup.renderLoading(false, loadingTextConfig.loadingSaveDefault))
   },
 })
 userPopup.setEventListeners()
@@ -111,14 +103,36 @@ popupOpenButtonProfile.addEventListener('click', () => {
   const getInputValues = userInfo.getUserInfo();
   popupInputName.value = getInputValues.inputName;
   popupInputDescription.value = getInputValues.inputDescription;
-  formValidatorEdit.resetValidation()
+  formValidatorEdit.resetValidation();
   userPopup.open();
+});
+const editAvatar = new PopupWithForm({
+  popupSelector: popupAvatar,
+  handleFormSubmit: data => {
+    editAvatar.renderLoading(true, loadingTextConfig.loadingTextSave)
+    api.changeAvatar(data.link)
+      .then((data) => {
+        userInfo.setNewAvatar(data);
+      })
+      .catch((err) => console.log(err))
+      .finally(() => editAvatar.renderLoading(false, loadingTextConfig.loadingSaveDefault))
+  }
+});
+
+editAvatar.setEventListeners();
+
+
+popupOpenAvatar.addEventListener('click', () => {
+  formValidatorAvatar.resetValidation();
+  editAvatar.open()
 });
 
 const formValidatorAdd = new FormValidator(validationSettings, popupCard);
 const formValidatorEdit = new FormValidator(validationSettings, popupProfile);
+const formValidatorAvatar = new FormValidator(validationSettings, popupAvatar);
 formValidatorAdd.enableValidation()
 formValidatorEdit.enableValidation();
+formValidatorAvatar.enableValidation();
 
 let userId;
 Promise.all([api.getProfile(), api.getCard()])
