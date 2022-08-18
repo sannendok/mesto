@@ -79,6 +79,14 @@ class Api {
     })
       .then((res) => this._getResponse(res))
   }
+
+deleteCard(id) {
+  return fetch(`${this._url}/cards/${id}`, {
+    method: 'DELETE',
+    headers: this._headers
+  })
+  .then((res) => this._getResponse(res))
+}
 };
 
 /***/ }),
@@ -94,10 +102,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 class Card {
-  constructor(data, cardSelector, handleCardClick) {
+  constructor(data, cardSelector, handleCardClick, {handleDeleteCard}, userId) {
     this._data = data;
     this._cardSelector = cardSelector;
     this._handleCardClick = handleCardClick;
+    this._handleDeleteCard = handleDeleteCard;
+    //this._handlePutLike = handlePutLike;
+    //this._handleDeleteLike = handleDeleteLike;
+    this._likes = data.likes;
+    this._cardId = data._id
+    this._ownerId = data.owner._id;
+    this._userId = userId;
   };
 
   _getTemplate() {
@@ -111,21 +126,26 @@ class Card {
   };
 
   _addEventListeners() {
-    this._element.querySelector('.elements__card-delete')
-      .addEventListener('click', () => this._deleteCard());
+    this._deleteIcon.addEventListener('click', () => this._handleDeleteCard(this._cardId));
     this._cardLikeButton = this._element.querySelector('.elements__card-like');
     this._cardLikeButton.addEventListener('click', () => this._likeCard());
     this._element.querySelector('.elements__item-image').addEventListener('click', () => this._handleCardClick(this._data.name, this._data.link));
   };
 
-  _deleteCard() {
+  deleteCard() {
     this._element.remove();
-    this._element = null;
-  };
+    this._element = null
+}
 
   _likeCard() {
     this._cardLikeButton.classList.toggle('elements__card-like_active');
   };
+
+  _whoseCard() {
+    if (this._ownerId !== this._userId) {
+      this._deleteIcon.remove();
+    }
+}
 
   render() {
     this._element = this._getTemplate();
@@ -133,6 +153,12 @@ class Card {
     this._element.querySelector('.elements__card-heading').textContent = this._data.name;
     this._element.querySelector('.elements__item-image').alt = this._data.name;
     this._popupImageButton = this._element.querySelector('.elements__item-image');
+    this._deleteIcon = this._element.querySelector('.elements__card-delete');
+    //this._cardLikeButton = this._element.querySelector('.elements__card-like');
+
+   // this._checkLike();
+    //this.countLikes(this._likes);
+    this._whoseCard();
     this._addEventListeners();
 
     return this._element;
@@ -282,6 +308,44 @@ class Popup {
       });
     }
   };
+
+/***/ }),
+
+/***/ "./src/components/PopupWithConfirmation.js":
+/*!*************************************************!*\
+  !*** ./src/components/PopupWithConfirmation.js ***!
+  \*************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ PopupWithConfirmation)
+/* harmony export */ });
+/* harmony import */ var _Popup__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Popup */ "./src/components/Popup.js");
+
+
+class PopupWithConfirmation extends _Popup__WEBPACK_IMPORTED_MODULE_0__["default"] {
+  constructor(popupSelector) {
+    super(popupSelector);
+    this._popupDeleteButton = document.querySelector('.popup__remove-btn');
+  }
+
+  setConfirmHandler(handler) {
+    this._confirmHandler = handler;
+  }
+
+  setEventListeners() {
+    this._popupDeleteButton.addEventListener('click', e => {
+      e.preventDefault();     
+       this._confirmHandler()
+    })
+    
+    super.setEventListeners();
+  }
+
+}
+
+
 
 /***/ }),
 
@@ -455,7 +519,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_PopupWithForm_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../components/PopupWithForm.js */ "./src/components/PopupWithForm.js");
 /* harmony import */ var _components_Api_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../components/Api.js */ "./src/components/Api.js");
 /* harmony import */ var _index_css__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./index.css */ "./src/pages/index.css");
-/* harmony import */ var _utils_constants_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../utils/constants.js */ "./src/utils/constants.js");
+/* harmony import */ var _components_PopupWithConfirmation_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../components/PopupWithConfirmation.js */ "./src/components/PopupWithConfirmation.js");
+/* harmony import */ var _utils_constants_js__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../utils/constants.js */ "./src/utils/constants.js");
+
 
 
 
@@ -479,10 +545,13 @@ const validationSettings = ({
   errorClass: 'popup__error_visible'
 });
 
-const api = new _components_Api_js__WEBPACK_IMPORTED_MODULE_7__["default"](_utils_constants_js__WEBPACK_IMPORTED_MODULE_9__.apiConfig);
+const api = new _components_Api_js__WEBPACK_IMPORTED_MODULE_7__["default"](_utils_constants_js__WEBPACK_IMPORTED_MODULE_10__.apiConfig);
 
-const popupWithImage = new _components_PopupWithImage_js__WEBPACK_IMPORTED_MODULE_5__["default"](_utils_constants_js__WEBPACK_IMPORTED_MODULE_9__.cardPhotoOpen);
+const popupWithImage = new _components_PopupWithImage_js__WEBPACK_IMPORTED_MODULE_5__["default"](_utils_constants_js__WEBPACK_IMPORTED_MODULE_10__.cardPhotoOpen);
 popupWithImage.setEventListeners();
+
+// const popupDeleteCard = new PopupWithConfirmation(popupDelete);  
+// popupDeleteCard.setEventListeners();
 
 const userInfo = new _components_UserInfo_js__WEBPACK_IMPORTED_MODULE_4__["default"]({ name: ".profile__name", about: ".profile__description", avatar: '.profile__avatar' });
 
@@ -498,7 +567,7 @@ function handleCardClick(name, link) {
 }
 
 function handleCreateCard(data) {
-  const userCard = new _components_Card_js__WEBPACK_IMPORTED_MODULE_0__["default"](data, '.template-item', handleCardClick).render();
+  const userCard = new _components_Card_js__WEBPACK_IMPORTED_MODULE_0__["default"](data, '.template-item', handleCardClick, {handleDeleteCard}, userId).render();
   return userCard;
 }
 
@@ -514,12 +583,12 @@ function placeSubmit(obj) {
 }
 
 const popupAddPlace = new _components_PopupWithForm_js__WEBPACK_IMPORTED_MODULE_6__["default"]({
-  popupSelector: _utils_constants_js__WEBPACK_IMPORTED_MODULE_9__.popupCard,
+  popupSelector: _utils_constants_js__WEBPACK_IMPORTED_MODULE_10__.popupCard,
   handleFormSubmit: placeSubmit,
 });
 popupAddPlace.setEventListeners();
 
-_utils_constants_js__WEBPACK_IMPORTED_MODULE_9__.popupOpenAdd.addEventListener('click', () => {
+_utils_constants_js__WEBPACK_IMPORTED_MODULE_10__.popupOpenAdd.addEventListener('click', () => {
   formValidatorAdd.resetValidation();
   popupAddPlace.open();
 });
@@ -531,7 +600,7 @@ _utils_constants_js__WEBPACK_IMPORTED_MODULE_9__.popupOpenAdd.addEventListener('
 //   },
 // })
 const userPopup = new _components_PopupWithForm_js__WEBPACK_IMPORTED_MODULE_6__["default"]({
-  popupSelector: _utils_constants_js__WEBPACK_IMPORTED_MODULE_9__.popupProfile,
+  popupSelector: _utils_constants_js__WEBPACK_IMPORTED_MODULE_10__.popupProfile,
   handleFormSubmit: ({ name, about }) => {
     api.editProfile({ name, about })
       .then(() => {
@@ -543,16 +612,28 @@ const userPopup = new _components_PopupWithForm_js__WEBPACK_IMPORTED_MODULE_6__[
 })
 userPopup.setEventListeners()
 
-_utils_constants_js__WEBPACK_IMPORTED_MODULE_9__.popupOpenButtonProfile.addEventListener('click', () => {
+
+// // document.querySelector('.popup__remove-btn').addEventListener('click', e => {
+// //  popupDelete.classList.remove('popup_open');
+// // })
+// document.querySelector('.popup__remove-btn').addEventListener('submit', e => {
+//   e.preventDefault();
+//  popupDelete.classList.remove('popup_open');
+// })
+
+
+
+
+_utils_constants_js__WEBPACK_IMPORTED_MODULE_10__.popupOpenButtonProfile.addEventListener('click', () => {
   const getInputValues = userInfo.getUserInfo();
-  _utils_constants_js__WEBPACK_IMPORTED_MODULE_9__.popupInputName.value = getInputValues.inputName;
-  _utils_constants_js__WEBPACK_IMPORTED_MODULE_9__.popupInputDescription.value = getInputValues.inputDescription;
+  _utils_constants_js__WEBPACK_IMPORTED_MODULE_10__.popupInputName.value = getInputValues.inputName;
+  _utils_constants_js__WEBPACK_IMPORTED_MODULE_10__.popupInputDescription.value = getInputValues.inputDescription;
   formValidatorEdit.resetValidation()
   userPopup.open();
 });
 
-const formValidatorAdd = new _components_FormValidator_js__WEBPACK_IMPORTED_MODULE_1__["default"](validationSettings, _utils_constants_js__WEBPACK_IMPORTED_MODULE_9__.popupCard);
-const formValidatorEdit = new _components_FormValidator_js__WEBPACK_IMPORTED_MODULE_1__["default"](validationSettings, _utils_constants_js__WEBPACK_IMPORTED_MODULE_9__.popupProfile);
+const formValidatorAdd = new _components_FormValidator_js__WEBPACK_IMPORTED_MODULE_1__["default"](validationSettings, _utils_constants_js__WEBPACK_IMPORTED_MODULE_10__.popupCard);
+const formValidatorEdit = new _components_FormValidator_js__WEBPACK_IMPORTED_MODULE_1__["default"](validationSettings, _utils_constants_js__WEBPACK_IMPORTED_MODULE_10__.popupProfile);
 formValidatorAdd.enableValidation()
 formValidatorEdit.enableValidation();
 
@@ -567,6 +648,22 @@ Promise.all([api.getProfile(), api.getCard()])
   })
   .catch((err) => console.log(err));
 
+const popupDeleteCard = new _components_PopupWithConfirmation_js__WEBPACK_IMPORTED_MODULE_9__["default"](_utils_constants_js__WEBPACK_IMPORTED_MODULE_10__.popupDelete);  
+popupDeleteCard.setEventListeners();
+
+  function handleDeleteCard(cardId) {
+    popupDeleteCard.open();
+    popupDeleteCard.setConfirmHandler(() => {
+    //   popupDelete.renderLoading(true, loadingTextConfig.loadingTextDelete)
+      api.deleteCard(cardId)
+        .then(() => {
+          this.deleteCard();
+         popupDeleteCard.close();
+        })
+        .catch((err)  => console.log(err))
+        // .finally(() => popupDelete.renderLoading(false, loadingTextConfig.loadingDeleteDefault))
+     })
+  };
 
 /***/ }),
 
@@ -586,6 +683,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "formAddCard": () => (/* binding */ formAddCard),
 /* harmony export */   "formElementProfile": () => (/* binding */ formElementProfile),
 /* harmony export */   "popupCard": () => (/* binding */ popupCard),
+/* harmony export */   "popupDelete": () => (/* binding */ popupDelete),
 /* harmony export */   "popupInputDescription": () => (/* binding */ popupInputDescription),
 /* harmony export */   "popupInputName": () => (/* binding */ popupInputName),
 /* harmony export */   "popupOpenAdd": () => (/* binding */ popupOpenAdd),
@@ -609,7 +707,7 @@ const formElementProfile = document.querySelector('.popup__card-add-profile');
 const cardContainer = document.querySelector('.elements__list');
 const formAddCard = document.querySelector('.popup__card-add-form');
 //export const avatar = document.querySelector('.profile__avatar');
-
+const popupDelete = document.querySelector('.remove-popup');
 
 const apiConfig = ({
   headers: {

@@ -174,6 +174,10 @@
   !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[0].use[1]!./node_modules/postcss-loader/dist/cjs.js!./src/blocks/elements/__card-likes/elements__card-likes.css ***!
   \***********************************************************************************************************************************************************************************/
 .elements__card-likes{align-items:center;display:flex;flex-direction:column;gap:3px 0}
+/*!*****************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[0].use[1]!./node_modules/postcss-loader/dist/cjs.js!./src/blocks/popup/__conteiner-remove/popup__conteiner-remove.css ***!
+  \*****************************************************************************************************************************************************************************************/
+.popup__conteiner-remove{background-color:#fff;border-radius:10px;display:flex;flex-direction:column;max-width:330px;padding:10px;position:relative;width:100%}@media screen and (max-width:450px){.popup__conteiner-remove{max-width:282px}}
 /*!*********************************************************************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[0].use[1]!./node_modules/postcss-loader/dist/cjs.js!./src/pages/index.css ***!
   \*********************************************************************************************************************************************/
