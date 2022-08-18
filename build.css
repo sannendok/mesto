@@ -65,7 +65,7 @@
 /*!********************************************************************************************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[0].use[1]!./node_modules/postcss-loader/dist/cjs.js!./src/blocks/popup/__tittle/popup__title.css ***!
   \********************************************************************************************************************************************************************/
-.popup__title{color:#000;font-size:24px;font-weight:900;line-height:29px;margin:34px 0 54px 36px}@media screen and (max-width:450px){.popup__title{font-size:18px;line-height:22px;margin:25px 22px 75px}}
+.popup__title{color:#000;font-size:24px;font-weight:900;line-height:29px;margin:34px 0 48px 36px}@media screen and (max-width:450px){.popup__title{font-size:18px;line-height:22px;margin:25px 22px 75px}}
 /*!*****************************************************************************************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[0].use[1]!./node_modules/postcss-loader/dist/cjs.js!./src/blocks/popup/__form/popup__form.css ***!
   \*****************************************************************************************************************************************************************/
@@ -177,7 +177,7 @@
 /*!*****************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[0].use[1]!./node_modules/postcss-loader/dist/cjs.js!./src/blocks/popup/__conteiner-remove/popup__conteiner-remove.css ***!
   \*****************************************************************************************************************************************************************************************/
-.popup__conteiner-remove{background-color:#fff;border-radius:10px;display:flex;flex-direction:column;max-width:330px;padding:10px;position:relative;width:100%}@media screen and (max-width:450px){.popup__conteiner-remove{max-width:282px}}
+.popup__conteiner-remove{background:#fff;border-radius:10px;box-shadow:0 0 25px rgba(0,0,0,.15);display:flex;flex-direction:column;height:181px;max-width:430px;position:relative;width:100%}@media screen and (max-width:450px){.popup__conteiner-remove{max-width:282px}}
 /*!*************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[0].use[1]!./node_modules/postcss-loader/dist/cjs.js!./src/blocks/popup/__content-avatar/popup__content-avatar.css ***!
   \*************************************************************************************************************************************************************************************/
@@ -186,6 +186,10 @@
   !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[0].use[1]!./node_modules/postcss-loader/dist/cjs.js!./src/blocks/profile/__button-change-avatar/profile__button-change-avatar.css ***!
   \*****************************************************************************************************************************************************************************************************/
 .profile__button-change-avatar{background-color:rgba(0,0,0,.8);background-image:url(images/changeavatarpencil.a086f758840ae814ecde.svg);background-position:50%;background-repeat:no-repeat;border:none;border-radius:50%;height:120px;opacity:0;padding:0;position:absolute;transition:opacity,.3s linear;width:120px}.profile__button-change-avatar:hover{cursor:pointer;opacity:.8}
+/*!*****************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[0].use[1]!./node_modules/postcss-loader/dist/cjs.js!./src/blocks/popup/__remove-btn/popup__remove-btn.css ***!
+  \*****************************************************************************************************************************************************************************/
+.popup__remove-btn{margin:0 auto;width:calc(100% - 72px)}
 /*!*********************************************************************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[0].use[1]!./node_modules/postcss-loader/dist/cjs.js!./src/pages/index.css ***!
   \*********************************************************************************************************************************************/

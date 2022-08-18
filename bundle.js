@@ -348,13 +348,14 @@ class Popup {
       }
     };
 
-    renderLoading(isLoading, text){
-      if (isLoading) {
-        this._buttonSubmit.textContent = text
-      } else {
-        this._buttonSubmit.textContent = text
-      }
-    };
+    // renderLoading(isLoading, text){
+    //   if (isLoading) {
+    //     this._buttonSubmit.textContent = text
+    //   } 
+    // };
+    renderLoading(text) {
+      this._buttonSubmit.textContent = text;
+  } 
 
     setEventListeners() {
       this._popup.addEventListener('mousedown', e => {
@@ -446,7 +447,7 @@ class PopupWithForm extends _Popup_js__WEBPACK_IMPORTED_MODULE_0__["default"] {
     this._popup.addEventListener('submit', e => {
       e.preventDefault();
       this._handleFormSubmit(this._getInputValues());
-      this.close();
+      // this.close();
     });
     super.setEventListeners();
   };
@@ -626,17 +627,18 @@ function handleCreateCard(data) {
 }
 
 function placeSubmit(obj) {
-  popupAddPlace.renderLoading(true, _utils_constants_js__WEBPACK_IMPORTED_MODULE_9__.loadingTextConfig.loadingTextCreate);
+  popupAddPlace.renderLoading(_utils_constants_js__WEBPACK_IMPORTED_MODULE_9__.loadingTextConfig.loadingTextCreate);
   api.addNewCard(obj)
     .then((obj) => {
       const place = handleCreateCard(obj);
       defaultCardList.addItem(place);
+      popupAddPlace.close();
     })
     .catch((err) => {
       console.log(err);
     })
     .finally(() => {
-      popupAddPlace.renderLoading(false, _utils_constants_js__WEBPACK_IMPORTED_MODULE_9__.loadingTextConfig.loadingCreateDefault)
+      popupAddPlace.renderLoading(_utils_constants_js__WEBPACK_IMPORTED_MODULE_9__.loadingTextConfig.loadingCreateDefault)
     })
     ;
 }
@@ -655,13 +657,14 @@ _utils_constants_js__WEBPACK_IMPORTED_MODULE_9__.popupOpenAdd.addEventListener('
 const userPopup = new _components_PopupWithForm_js__WEBPACK_IMPORTED_MODULE_5__["default"]({
   popupSelector: _utils_constants_js__WEBPACK_IMPORTED_MODULE_9__.popupProfile,
   handleFormSubmit: ({ name, about }) => {
-    userPopup.renderLoading(true, _utils_constants_js__WEBPACK_IMPORTED_MODULE_9__.loadingTextConfig.loadingTextSave)
+    userPopup.renderLoading(_utils_constants_js__WEBPACK_IMPORTED_MODULE_9__.loadingTextConfig.loadingTextSave)
     api.editProfile({ name, about })
       .then(() => {
         userInfo.setUserInfo({ name, about });
+        userPopup.close();
       })
       .catch((err) => console.log(err))
-      .finally(() => userPopup.renderLoading(false, _utils_constants_js__WEBPACK_IMPORTED_MODULE_9__.loadingTextConfig.loadingSaveDefault))
+      .finally(() => userPopup.renderLoading(_utils_constants_js__WEBPACK_IMPORTED_MODULE_9__.loadingTextConfig.loadingSaveDefault))
   },
 })
 userPopup.setEventListeners()
@@ -676,13 +679,14 @@ _utils_constants_js__WEBPACK_IMPORTED_MODULE_9__.popupOpenButtonProfile.addEvent
 const editAvatar = new _components_PopupWithForm_js__WEBPACK_IMPORTED_MODULE_5__["default"]({
   popupSelector: _utils_constants_js__WEBPACK_IMPORTED_MODULE_9__.popupAvatar,
   handleFormSubmit: data => {
-    editAvatar.renderLoading(true, _utils_constants_js__WEBPACK_IMPORTED_MODULE_9__.loadingTextConfig.loadingTextSave)
+    editAvatar.renderLoading(_utils_constants_js__WEBPACK_IMPORTED_MODULE_9__.loadingTextConfig.loadingTextSave)
     api.changeAvatar(data.link)
       .then((data) => {
         userInfo.setNewAvatar(data);
+        editAvatar.close();
       })
       .catch((err) => console.log(err))
-      .finally(() => editAvatar.renderLoading(false, _utils_constants_js__WEBPACK_IMPORTED_MODULE_9__.loadingTextConfig.loadingSaveDefault))
+      .finally(() => editAvatar.renderLoading(_utils_constants_js__WEBPACK_IMPORTED_MODULE_9__.loadingTextConfig.loadingSaveDefault))
   }
 });
 
@@ -708,7 +712,7 @@ Promise.all([api.getProfile(), api.getCard()])
     userInfo.setUserInfo(user);
     userInfo.setNewAvatar(user);
 
-    defaultCardList.renderer(data);
+    defaultCardList.renderer(data.reverse());
   })
   .catch((err) => console.log(err));
 
@@ -718,14 +722,14 @@ popupDeleteCard.setEventListeners();
 function handleDeleteCard(cardId) {
   popupDeleteCard.open();
   popupDeleteCard.setConfirmHandler(() => {
-    popupDeleteCard.renderLoading(true, _utils_constants_js__WEBPACK_IMPORTED_MODULE_9__.loadingTextConfig.loadingTextDelete)
+    popupDeleteCard.renderLoading(_utils_constants_js__WEBPACK_IMPORTED_MODULE_9__.loadingTextConfig.loadingTextDelete)
     api.deleteCard(cardId)
       .then(() => {
         this.deleteCard();
         popupDeleteCard.close();
       })
       .catch((err) => console.log(err))
-      .finally(() => popupDeleteCard.renderLoading(false, _utils_constants_js__WEBPACK_IMPORTED_MODULE_9__.loadingTextConfig.loadingDeleteDefault))
+      .finally(() => popupDeleteCard.renderLoading(_utils_constants_js__WEBPACK_IMPORTED_MODULE_9__.loadingTextConfig.loadingDeleteDefault))
   })
 };
 
