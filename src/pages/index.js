@@ -59,17 +59,18 @@ function handleCreateCard(data) {
 }
 
 function placeSubmit(obj) {
-  popupAddPlace.renderLoading(true, loadingTextConfig.loadingTextCreate);
+  popupAddPlace.renderLoading(loadingTextConfig.loadingTextCreate);
   api.addNewCard(obj)
     .then((obj) => {
       const place = handleCreateCard(obj);
       defaultCardList.addItem(place);
+      popupAddPlace.close();
     })
     .catch((err) => {
       console.log(err);
     })
     .finally(() => {
-      popupAddPlace.renderLoading(false, loadingTextConfig.loadingCreateDefault)
+      popupAddPlace.renderLoading(loadingTextConfig.loadingCreateDefault)
     })
     ;
 }
@@ -88,13 +89,14 @@ popupOpenAdd.addEventListener('click', () => {
 const userPopup = new PopupWithForm({
   popupSelector: popupProfile,
   handleFormSubmit: ({ name, about }) => {
-    userPopup.renderLoading(true, loadingTextConfig.loadingTextSave)
+    userPopup.renderLoading(loadingTextConfig.loadingTextSave)
     api.editProfile({ name, about })
       .then(() => {
         userInfo.setUserInfo({ name, about });
+        userPopup.close();
       })
       .catch((err) => console.log(err))
-      .finally(() => userPopup.renderLoading(false, loadingTextConfig.loadingSaveDefault))
+      .finally(() => userPopup.renderLoading(loadingTextConfig.loadingSaveDefault))
   },
 })
 userPopup.setEventListeners()
@@ -109,13 +111,14 @@ popupOpenButtonProfile.addEventListener('click', () => {
 const editAvatar = new PopupWithForm({
   popupSelector: popupAvatar,
   handleFormSubmit: data => {
-    editAvatar.renderLoading(true, loadingTextConfig.loadingTextSave)
+    editAvatar.renderLoading(loadingTextConfig.loadingTextSave)
     api.changeAvatar(data.link)
       .then((data) => {
         userInfo.setNewAvatar(data);
+        editAvatar.close();
       })
       .catch((err) => console.log(err))
-      .finally(() => editAvatar.renderLoading(false, loadingTextConfig.loadingSaveDefault))
+      .finally(() => editAvatar.renderLoading(loadingTextConfig.loadingSaveDefault))
   }
 });
 
@@ -141,7 +144,7 @@ Promise.all([api.getProfile(), api.getCard()])
     userInfo.setUserInfo(user);
     userInfo.setNewAvatar(user);
 
-    defaultCardList.renderer(data);
+    defaultCardList.renderer(data.reverse());
   })
   .catch((err) => console.log(err));
 
@@ -151,14 +154,14 @@ popupDeleteCard.setEventListeners();
 function handleDeleteCard(cardId) {
   popupDeleteCard.open();
   popupDeleteCard.setConfirmHandler(() => {
-    popupDeleteCard.renderLoading(true, loadingTextConfig.loadingTextDelete)
+    popupDeleteCard.renderLoading(loadingTextConfig.loadingTextDelete)
     api.deleteCard(cardId)
       .then(() => {
         this.deleteCard();
         popupDeleteCard.close();
       })
       .catch((err) => console.log(err))
-      .finally(() => popupDeleteCard.renderLoading(false, loadingTextConfig.loadingDeleteDefault))
+      .finally(() => popupDeleteCard.renderLoading(loadingTextConfig.loadingDeleteDefault))
   })
 };
 
