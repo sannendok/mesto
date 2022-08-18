@@ -1,12 +1,13 @@
 .popup__conteiner-remove {
-    max-width: 330px;
-    width: 100%;
-    background-color: #fff;
+    background: #fff;
     border-radius: 10px;
-    position: relative;
+    box-shadow: 0 0 25px rgba(0,0,0,.15);
     display: flex;
     flex-direction: column;
-    padding: 10px;
+    height: 181px;
+    max-width: 430px;
+    position: relative;
+    width: 100%;
 }
 
 @media screen and (max-width: 450px) {

@@ -21,13 +21,14 @@ export default class Popup {
       }
     };
 
-    renderLoading(isLoading, text){
-      if (isLoading) {
-        this._buttonSubmit.textContent = text
-      } else {
-        this._buttonSubmit.textContent = text
-      }
-    };
+    // renderLoading(isLoading, text){
+    //   if (isLoading) {
+    //     this._buttonSubmit.textContent = text
+    //   } 
+    // };
+    renderLoading(text) {
+      this._buttonSubmit.textContent = text;
+  } 
 
     setEventListeners() {
       this._popup.addEventListener('mousedown', e => {
